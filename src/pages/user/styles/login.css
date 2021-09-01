@@ -1,0 +1,24 @@
+.login-container {
+  background-color: whitesmoke;
+  box-shadow: 2px 7px 29px 0px rgba(168, 168, 168, 0.75);
+  -webkit-box-shadow: 2px 7px 29px 0px rgba(168, 168, 168, 0.75);
+  -moz-box-shadow: 2px 7px 29px 0px rgba(168, 168, 168, 0.75);
+  height: 85vh;
+}
+
+.img-wrap {
+  width: 100%;
+  height: 100%;
+
+  display: inline-block;
+  overflow: hidden;
+  /* margin: -100px; */
+}
+
+.login-button {
+  background-color: #003e4d;
+  color: white;
+  border: none;
+  width: 100%;
+  font-weight: bold;
+}

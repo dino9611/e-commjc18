@@ -1,0 +1,18 @@
+{
+    "users":[
+        {
+            "id":1,
+            "username":"dino",
+            "password":"abcde",
+            "email":"dinopwdk@gmail.com",
+            "role":"user"
+        },
+        {
+            "id":2,
+            "username":"admin",
+            "password":"abcde",
+            "email":"admin@gmail.com",
+            "role":"admin"
+        }
+    ]
+}

@@ -1,25 +1,53 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+import "./App.css";
+import { Login } from "./pages/user";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import { Switch, Route } from "react-router-dom";
+import Home from "./pages/Home";
+import axios from "axios";
+import { connect } from "react-redux";
+import { LoginAction } from "./redux/actions";
+class App extends Component {
+  state = {
+    loading: true,
+  };
+
+  componentDidMount() {
+    let id = localStorage.getItem("id");
+    if (id) {
+      axios
+        .get(`http://localhost:5000/users/${id}`)
+        .then((res) => {
+          this.props.LoginAction(res.data);
+        })
+        .catch((err) => {
+          alert("server error");
+        })
+        .finally(() => {
+          this.setState({ loading: false });
+        });
+    } else {
+      this.setState({ loading: false });
+    }
+  }
+
+  render() {
+    if (this.state.loading) {
+      return (
+        <div>
+          <h1>Loadingg</h1>
+        </div>
+      );
+    }
+    return (
+      <div>
+        <Switch>
+          <Route path="/" exact component={Home} />
+          <Route path="/login" exact component={Login} />
+        </Switch>
+      </div>
+    );
+  }
 }
 
-export default App;
+export default connect(null, { LoginAction })(App);
