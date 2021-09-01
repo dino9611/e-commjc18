@@ -8,7 +8,12 @@ class Home extends Component {
         return (
             <div>
                 <h1>ini Home</h1>
-                <Link to='login'>TO LOGIN</Link>
+                <Link to='/login'>
+                    TO LOGIN
+                    </Link>
+                <button onClick={()=>{
+                    localStorage.removeItem('id')
+                }}>logout</button>
             </div>
           );
     }

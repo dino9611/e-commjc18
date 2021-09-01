@@ -7,6 +7,10 @@ import Home from "./pages/Home";
 import axios from "axios";
 import { connect } from "react-redux";
 import { LoginAction } from "./redux/actions";
+import { ToastContainer } from "react-toastify";
+
+import "react-toastify/dist/ReactToastify.css";
+import { API_URL } from "./helpers/ApiUrl";
 class App extends Component {
   state = {
     loading: true,
@@ -16,7 +20,7 @@ class App extends Component {
     let id = localStorage.getItem("id");
     if (id) {
       axios
-        .get(`http://localhost:5000/users/${id}`)
+        .get(`${API_URL}/users/${id}`)
         .then((res) => {
           this.props.LoginAction(res.data);
         })
@@ -45,6 +49,7 @@ class App extends Component {
           <Route path="/" exact component={Home} />
           <Route path="/login" exact component={Login} />
         </Switch>
+        <ToastContainer />
       </div>
     );
   }

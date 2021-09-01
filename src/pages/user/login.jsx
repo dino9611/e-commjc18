@@ -5,13 +5,20 @@ import axios from 'axios'
 import { Redirect } from 'react-router-dom';
 import {connect} from 'react-redux'
 import { LoginAction } from '../../redux/actions';
+import {toast} from 'react-toastify'
 
-// import {AiFillEye,AiFillEyeInvisible} from 'react-icons/ai'
+import {AiFillCheckCircle} from 'react-icons/ai'
+import {API_URL} from './../../helpers/ApiUrl'
+
+
 class Login extends Component {
     state = {
         showpassword:'password',
         username:'',
-        password:''
+        password:'',
+        openSnack:false,
+        message:'',
+        status:'success'
     }
 
     onCheckShow = (e)=>{
@@ -27,27 +34,66 @@ class Login extends Component {
     }   
 
     LoginHandler =()=>{
+       
         const {username,password} =this.state
-        axios.get(`http://localhost:5000/users?username=${username}&password=${password}`)
+        axios.get(`${API_URL}/users?username=${username}&password=${password}`)
         .then((res)=>{
             if(res.data.length){
-                alert('user ada')
+                // alert('user ada')
+                
+                toast.success('Berhasil login',
+                    {
+                        position: "top-right",
+                        autoClose: 5000,
+                        icon:()=> <AiFillCheckCircle/>
+                    }
+
+                )
+
                 localStorage.setItem('id',res.data[0].id) 
-                // dalam kasus real id nggak boleh disimpan 
-                // dalam localstorage , better token yang disimpan
+                // // dalam kasus real id nggak boleh disimpan 
+                // // dalam localstorage , better token yang disimpan
                 this.props.LoginAction(res.data[0])
+                
             }else{
-                alert('user tidak ditemukan')
+                toast.error(
+                    'user tidak ada',
+                    {
+                        position: "top-right",
+                        autoClose: 5000,
+                    
+                    }
+
+                )
             }
         }).catch((err)=>{
-            alert('server error')
+            toast.error(
+                'server error',
+                {
+                    position: "top-right",
+                    autoClose: 5000,
+                }
+            )
         })
     }
 
-    onLoginClick=()=>{
+    onLoginClick=(e)=>{
+        // alert('e')
+        e.preventDefault()
         this.LoginHandler()
-
     }
+
+    handleClick = () => {
+        this.setState({openSnack:true})
+    };
+    
+    handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+          return;
+        }
+    
+        this.setState({openSnack:false})
+    };
 
     render() {
         const {showpassword,username,password} =this.state 
@@ -58,41 +104,50 @@ class Login extends Component {
         }
         return (
             <div>
-                <div className="container mt-5  login-container">
+                <div className="container mt-0 mt-sm-5  login-container">
                     <div className="row p-0" style={{height:'100%'}}>
-                        <div className="col-md-7 m-0 img-wrap bg-primary  d-none d-md-block p-0">
-                            <img src={Gambar1}  width="100%"  />
+                        <div className="col-md-7 col-sm-6 m-0  img-wrap bg-primary  d-md-block p-0">
+                            <img alt='foto' src={Gambar1} height="100%"  width="100%" style={{objectFit:'cover'}} />
                         </div>
-                        <div className="col-md-5 col-12 d-flex flex-column justify-content-center align-items-center ">
-                            
-                            <h1 className='mb-5'>Login</h1>
-                            <input 
-                                value={username}
-                                type="text" 
-                                onChange={this.onInputChange} 
-                                name="username" 
-                                placeholder='username' 
-                                className=' my-2 form-control'
-                            />
-                            <input 
-                                value={password}
-                                type={showpassword}
-                                onChange={this.onInputChange}
-                                name="password"
-                                placeholder='password'
-                                className='my-2 form-control'
-                            />
-                            <div className='align-self-end'>
-                                <input type="checkbox" onChange={this.onCheckShow} /> show password
-                            </div>
-                            <div className='align-self-start'>
-                                <button className='login-button py-2 px-4 rounded' onClick={this.onLoginClick}  >
-                                    Login
-                                </button>
-                            </div>
+                        <div className="col-md-5 col-sm-6 tinggi-img col-12">
+                            <form onSubmit={this.onLoginClick} style={{width:'100%',height:'100%'}} className=' d-flex flex-column justify-content-center align-items-start ' >
+                                <h1 className='mb-5'>Login</h1>
+                                <input 
+                                    value={username}
+                                    type="text" 
+                                    onChange={this.onInputChange} 
+                                    name="username" 
+                                    placeholder='username' 
+                                    className=' my-2 form-control'
+                                />
+                                <input 
+                                    value={password}
+                                    type={showpassword}
+                                    onChange={this.onInputChange}
+                                    name="password"
+                                    placeholder='password'
+                                    className='my-2 form-control'
+                                />
+                                <div className='align-self-end'>
+                                    <input type="checkbox" onChange={this.onCheckShow} /> show password
+                                </div>
+                                <div className='align-self-start button-log-cont'>
+                                    <button className=' login-button  py-2 px-4 rounded' type='submit' >
+                                        Login
+                                    </button>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
+                {/* <Alert
+                    message={this.state.message}
+                    openSnack={this.state.openSnack}
+                    status={this.state.status}
+                    handleClose={this.handleClose}
+                /> */}
+                 
+              
             </div>
         );
     }

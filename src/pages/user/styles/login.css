@@ -22,3 +22,52 @@
   width: 100%;
   font-weight: bold;
 }
+
+/* .MuiSnackbar-root {
+  background-color: tomato !important;
+} */
+
+.MuiSnackbarContent-root {
+  background-color: #003e4d !important;
+}
+
+.Toastify__progress-bar--success {
+  background-color: white !important;
+}
+
+.Toastify__toast--success {
+  background-color: #003e4d !important;
+  color: white !important;
+}
+
+.Toastify__close-button--success {
+  color: white !important;
+}
+.Toastify__close-button--default {
+  color: white !important;
+}
+
+/* 
+@media query only screen and max */
+@media only screen and (max-width: 500px) {
+  .login-container {
+    height: 100vh;
+  }
+  .tinggi-img {
+    position: absolute;
+    background-color: white !important;
+    height: 50vh;
+    border-top-right-radius: 20px;
+    border-top-left-radius: 20px;
+    top: 50%;
+    /* bottom: 50%; */
+    /* z-index: 100; */
+  }
+  .img-wrap {
+    height: 60vh;
+  }
+  .button-log-cont {
+    width: 100%;
+    margin-top: 2em;
+  }
+}
