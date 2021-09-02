@@ -4,6 +4,7 @@ import { Login } from "./pages/user";
 
 import { Switch, Route } from "react-router-dom";
 import Home from "./pages/Home";
+import ManageProduct from "./pages/admin/manageProduct";
 import axios from "axios";
 import { connect } from "react-redux";
 import { LoginAction } from "./redux/actions";
@@ -11,6 +12,8 @@ import { ToastContainer } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.css";
 import { API_URL } from "./helpers/ApiUrl";
+
+import Header from "./components/Header";
 class App extends Component {
   state = {
     loading: true,
@@ -45,8 +48,9 @@ class App extends Component {
     }
     return (
       <div>
+        <Header />
         <Switch>
-          <Route path="/" exact component={Home} />
+          <Route path="/" exact component={ManageProduct} />
           <Route path="/login" exact component={Login} />
         </Switch>
         <ToastContainer />

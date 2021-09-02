@@ -1,18 +1,66 @@
 {
-    "users":[
-        {
-            "id":1,
-            "username":"dino",
-            "password":"abcde",
-            "email":"dinopwdk@gmail.com",
-            "role":"user"
-        },
-        {
-            "id":2,
-            "username":"admin",
-            "password":"abcde",
-            "email":"admin@gmail.com",
-            "role":"admin"
-        }
-    ]
+  "users": [
+    {
+      "id": 1,
+      "username": "dino",
+      "password": "abcde",
+      "email": "dinopwdk@gmail.com",
+      "role": "user"
+    },
+    {
+      "id": 2,
+      "username": "admin",
+      "password": "abcde",
+      "email": "admin@gmail.com",
+      "role": "admin"
+    }
+  ],
+  "categories": [
+    {
+      "id": 1,
+      "name": "urban"
+    },
+    {
+      "id": 2,
+      "name": "industry"
+    }
+  ],
+  "products": [
+    {
+      "id": 1,
+      "name": "kursi",
+      "price": 200000,
+      "image": "https://images.unsplash.com/photo-1592078615290-033ee584e267",
+      "stock": 5,
+      "categoryId": 1,
+      "keterangan": "kursi bagus"
+    },
+    {
+      "id": 2,
+      "name": "sofa",
+      "price": 500000,
+      "image": "https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80",
+      "stock": 5,
+      "categoryId": 2,
+      "keterangan": "u"
+    },
+    {
+      "id": 3,
+      "name": "meja kayu",
+      "price": 700000,
+      "categoryId": 1,
+      "image": "https://images.unsplash.com/photo-1486946255434-2466348c2166?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=334&q=80",
+      "stock": 5,
+      "keterangan": "u"
+    },
+    {
+      "name": "kursi kerja",
+      "image": "https://images.unsplash.com/photo-1492138786289-d35ea832da43?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80",
+      "price": 200000,
+      "stock": 10,
+      "keterangan": "kursi kece cuy",
+      "categoryId": 1,
+      "id": 4
+    }
+  ]
 }
