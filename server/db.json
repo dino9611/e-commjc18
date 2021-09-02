@@ -61,6 +61,34 @@
       "keterangan": "kursi kece cuy",
       "categoryId": 1,
       "id": 4
+    },
+    {
+        "id" : 5,
+        "name" : "kursi",
+        "price" : 20000,
+        "stock" : 5,
+        "image" : "https://images.unsplash.com/photo-1592078615290-033ee584e267",
+        "categoryId" : 1,
+        "keterangan" : "Aesthetic"
+    },
+    {
+        "id" : 6,
+        "name" : "sofa",
+        "price" : 30000,
+        "stock" : 7,
+        "image" : "https://images.unsplash.com/photo-1565374395542-0ce18882c857",
+        "categoryId" : 2,
+        "keterangan" : "Empuk"
+    },
+    {
+        "id" : 7,
+        "name" : "Meja",
+        "price" : 10000,
+        "stock" : 6,
+        "image" : "https://images.unsplash.com/photo-1499933374294-4584851497cc",
+        "categoryId" : 2,
+        "keterangan" : "Aestetic"
     }
+
   ]
 }

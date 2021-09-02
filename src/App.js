@@ -4,7 +4,7 @@ import { Login } from "./pages/user";
 
 import { Switch, Route } from "react-router-dom";
 import Home from "./pages/Home";
-import ManageProduct from "./pages/admin/manageProduct";
+import AdminContainer from "./pages/admin/adminContainer";
 import axios from "axios";
 import { connect } from "react-redux";
 import { LoginAction } from "./redux/actions";
@@ -48,9 +48,10 @@ class App extends Component {
     }
     return (
       <div>
-        <Header />
+        {/* <Header /> */}
         <Switch>
-          <Route path="/" exact component={ManageProduct} />
+          <Route path="/" exact component={Home} />
+          <Route path="/admin" exact component={AdminContainer} />
           <Route path="/login" exact component={Login} />
         </Switch>
         <ToastContainer />

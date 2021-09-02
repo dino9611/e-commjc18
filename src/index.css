@@ -10,3 +10,8 @@ body {
   margin: 0px;
   padding: 0px;
 }
+
+.bg-warna {
+  background-color: #003e4d;
+  color: white;
+}

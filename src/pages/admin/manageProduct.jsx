@@ -1,6 +1,6 @@
 import React, { Component,createRef } from 'react';
-import PropTypes from 'prop-types';
-import { makeStyles, withStyles, useTheme } from '@material-ui/core/styles';
+
+import { withStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableHead from '@material-ui/core/TableHead';
 import TableBody from '@material-ui/core/TableBody';
@@ -10,20 +10,21 @@ import TableFooter from '@material-ui/core/TableFooter';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import IconButton from '@material-ui/core/IconButton';
-import FirstPageIcon from '@material-ui/icons/FirstPage';
-import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
-import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
-import LastPageIcon from '@material-ui/icons/LastPage';
+
 import { Button } from '@material-ui/core';
 import axios from 'axios';
 import { API_URL } from '../../helpers/ApiUrl';
 import ButtonComp from '../../components/Button';
 import {Modal,ModalBody,ModalHeader,ModalFooter} from 'reactstrap'
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
+
+const MySwal = withReactContent(Swal)
 
 const styles ={
     table: {
       minWidth: 500,
+    //   minHeight:'90vh'
     },
 }
 
@@ -32,7 +33,7 @@ class ManageProduct extends Component {
     state = {
         products:[],
         page:0,
-        limit:2,
+        limit:4,
         totalProd:0,
         addData:{
             name:createRef(),
@@ -92,15 +93,12 @@ class ManageProduct extends Component {
     }
 
     handleChangeRowsPerPage = (e)=>{
-        // console.log(event.target.value)
-        let limit 
-        if(e.target.value < 0){
-            limit = this.state.totalProd
-        }else{
-            limit = e.target.value
-
-        }
-        this.setState({page:0,limit:limit})
+        
+        let total = this.state.totalProd
+        // parseInt(e.target.value,total)
+        // jika e.target.value nya -1 maka hasil diatas adalah total 
+        // tapi klo diatas 0 misalnya 2 maka yang diambil adalah 2
+        this.setState({page:0,limit: parseInt(e.target.value,total)})
 
     }
 
@@ -129,15 +127,45 @@ class ManageProduct extends Component {
        
     }
 
+
+    deleteData = (index)=>{
+        let prod = this.state.products[index]
+        MySwal.fire({
+            title: `Are you sure delete ${prod.name} ?`,
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#003e4d',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+          }).then((result) => {
+            if (result.isConfirmed) {
+                axios.delete(`${API_URL}/products/${prod.id}`)
+                .then(()=>{
+                    this.fetchData()
+                    MySwal.fire(
+                        'Deleted!',
+                        'Your file has been deleted.',
+                        'success'
+                    )
+                    
+                }).catch((err)=>{
+                    alert(err)
+                })
+                
+            } 
+          })
+    }
+
     renderTableBody = ()=>{
         if(!this.state.products.length){
             return(
-                <TableRow style={{ height: 53 * 6 }}>
+                <TableRow style={{ height: 53 * 10 }}>
                     <TableCell colSpan={7} />
                 </TableRow>
             )  
         }
-        let rumusNo = (this.state.page) * 2
+        let rumusNo = (this.state.page) * this.state.limit
         return this.state.products.map((val,index)=>{
             return(
             <TableRow key={index}>
@@ -151,7 +179,7 @@ class ManageProduct extends Component {
                         <Button  color='primary'>
                             Edit
                         </Button>
-                        <Button color='secondary'>
+                        <Button color='secondary' onClick={()=>this.deleteData(index)}>
                             Delete
                         </Button>
                 </TableCell>
@@ -161,7 +189,7 @@ class ManageProduct extends Component {
         })
     }
 
-
+    
 
     renderModal = ()=>{
         let {name,image,price,stock,keterangan,categoryId}=this.state.addData
@@ -169,7 +197,7 @@ class ManageProduct extends Component {
             <Modal isOpen={this.state.openModal} toggle={this.toggle}>
                 <ModalHeader toggle={this.toggle}>ADD products</ModalHeader>
                 <ModalBody>
-                    <input className='form-control my-1' type='text' ref={name} placeholder='product Name' />
+                    <input className='form-control my-1' type='text'  ref={name} placeholder='product Name' />
                     <input className='form-control my-1' type='number' ref={price} placeholder='price' />
                     <input className='form-control my-1' type='number' ref={stock} placeholder='stock' />
                     <input className='form-control my-1' type='text' ref={image} placeholder='image' />
@@ -205,7 +233,7 @@ class ManageProduct extends Component {
         return (
             <div>
                 {this.renderModal()}
-                <div className='container pt-5'>
+                <div className='container pt-3'>
                     <div className='my-2'>
                         <ButtonComp onClick={this.toggle} style={{width:"15%"}} className='px-1 py-2'>
                             Add Product
@@ -217,7 +245,7 @@ class ManageProduct extends Component {
                                 <TableRow style={{backgroundColor:'#003e4d',color:'white'}}>
                                     <TableCell component='th' className='text-white'>No.</TableCell>
                                     <TableCell align="left"  className='text-white' >Name</TableCell>
-                                    <TableCell align="left"  className='text-white'>image</TableCell>
+                                    <TableCell align="left" style={{ width: 160 }}  className='text-white'>image</TableCell>
                                     <TableCell align="left"  className='text-white' >Price</TableCell>
                                     <TableCell align="left"  className='text-white'>Stock</TableCell>
                                     <TableCell align="left"  className='text-white'>category</TableCell>
@@ -225,32 +253,14 @@ class ManageProduct extends Component {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {this.renderTableBody()}
-                            
-                            {/* {(rowsPerPage > 0
-                                ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                : rows
-                            ).map((row) => (
-                                <TableRow key={row.name}>
-                                    <TableCell component="th" scope="row">
-                                        {row.name}
-                                    </TableCell>
-                                    <TableCell style={{ width: 160 }} align="right">
-                                        {row.calories}
-                                    </TableCell>
-                                    <TableCell style={{ width: 160 }} align="right">
-                                        {row.fat}
-                                    </TableCell>
-                                </TableRow>
-                            ))} */}
-
-                     
+                                {this.renderTableBody()}                     
                             </TableBody>
                             <TableFooter>
                                 <TableRow> 
                                     <TablePagination 
-                                        rowsPerPageOptions={[2, { label: 'All', value: -1 }]}
-                                        colSpan={3}
+                                        // style={{backgroundColor:'red'}}
+                                        rowsPerPageOptions={[4, 6,{ label: 'All', value: -1 }]}
+                                        colSpan={7}
                                         count={this.state.totalProd}
                                         rowsPerPage={this.state.limit}
                                         page={this.state.page}
@@ -271,4 +281,5 @@ class ManageProduct extends Component {
     }
 }
  
-export default  withStyles(styles) (ManageProduct);
+export default withStyles(styles) (ManageProduct);
+
