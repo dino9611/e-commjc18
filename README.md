@@ -1,3 +1,14 @@
+# algorithm register
+
+1. berdasarkan database json kita,kita butuh 4 input username,password,email,confimrpass
+2. jika confim pass beda dengan pass maka tolak berenti disin
+3. jika sama lanjut
+4. axios cari username yang sama
+5. jika dihasilkan array tidak kosong maka username telah terdaftar
+6. dan tolak berenti disini
+7. jika data kosong maka add user
+8. login
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
