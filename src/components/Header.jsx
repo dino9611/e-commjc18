@@ -16,6 +16,7 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import {Link} from 'react-router-dom'
 import { connect } from 'react-redux';
+import { Button } from '@material-ui/core';
 
 const styles = (theme) => ({
   grow: {
@@ -131,59 +132,89 @@ class Header extends Component {
           transformOrigin={{ vertical: 'bottom', horizontal: 'right' }}
           open={this.state.openMenu}
           onClose={this.handleMenuClose}
-        >
-          <MenuItem onClick={this.handleMenuClose}>Profile</MenuItem>
-          <MenuItem onClick={this.handleMenuClose}>My account</MenuItem>
-          <Link to = '/admin'>
-            <MenuItem>admin Menu</MenuItem>
-          </Link>
+        > 
+       
+          {
+            this.props.auth.role === 'admin'
+            ?
+            <Link to = '/admin'>
+              <MenuItem>admin Menu</MenuItem>
+            </Link>
+            :
+            <>
+              <MenuItem onClick={this.handleMenuClose}>Profile</MenuItem>
+              <MenuItem onClick={this.handleMenuClose}>My account</MenuItem>
+            </>
+          }
+          <MenuItem>LogOut</MenuItem>
         </Menu>
     );
 
 
     mobileMenuId = 'primary-search-account-menu-mobile';
     renderMobileMenu = () => (
-    <Menu
-      anchorEl={this.state.mobileMoreAnchorEl}
-      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-      id={this.mobileMenuId}
-      keepMounted
-      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-      open={this.state.openMobile}
-      onClose={this.handleMobileMenuClose}
-    >
-      <MenuItem>
-        <IconButton aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={4} color="secondary">
-            <MailIcon />
-          </Badge>
-        </IconButton>
-        <p>Messages</p>
-      </MenuItem>
-      <MenuItem>
-        <IconButton aria-label="show 11 new notifications" color="inherit">
-          <Badge badgeContent={11} color="secondary">
-            <NotificationsIcon />
-          </Badge>
-        </IconButton>
-        <p>Notifications</p>
-      </MenuItem>
-      <MenuItem onClick={this.handleProfileMenuOpen}>
-        <IconButton
-          aria-label="account of current user"
-          aria-controls="primary-search-account-menu"
-          aria-haspopup="true"
-          color="inherit"
-        >
-          <AccountCircle />
-        </IconButton>
-        <p>Profile</p>
-      </MenuItem>
-    </Menu>
+
+      <Menu
+        anchorEl={this.state.mobileMoreAnchorEl}
+        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+        id={this.mobileMenuId}
+        keepMounted
+        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+        open={this.state.openMobile}
+        onClose={this.handleMobileMenuClose}
+      >
+        {
+           this.props.auth.isLogin ?
+           <>
+            {
+              this.props.auth.role === 'admin'
+              ?
+              null
+              :
+              <>
+                 <MenuItem>
+                  <IconButton aria-label="show 4 new mails" color="inherit">
+                    <Badge badgeContent={4} color="secondary">
+                      <MailIcon />
+                    </Badge>
+                  </IconButton>
+                  <p>Messages</p>
+                </MenuItem>
+                <MenuItem>
+                  <IconButton aria-label="show 11 new notifications" color="inherit">
+                    <Badge badgeContent={11} color="secondary">
+                      <NotificationsIcon />
+                    </Badge>
+                  </IconButton>
+                  <p>Notifications</p>
+                </MenuItem>
+              </>
+            }
+            <MenuItem onClick={this.handleProfileMenuOpen}>
+              <IconButton
+                aria-label="account of current user"
+                aria-controls="primary-search-account-menu"
+                aria-haspopup="true"
+                color="inherit"
+              >
+                <AccountCircle />
+              </IconButton>
+              <p>{this.props.auth.username}</p>
+            </MenuItem>
+           </>
+           :
+           <MenuItem onClick={this.handleProfileMenuOpen}>
+              <Link to= '/login' className='txt-link'>
+                  Login  
+              </Link>
+          </MenuItem>
+          
+        }
+      </Menu>
   );
 
     render() {
-      const {classes} = this.props 
+      const {classes,auth} = this.props 
   
         return (
         <>
@@ -215,50 +246,89 @@ class Header extends Component {
                   />
                 </div>
                 <div className={classes.grow} />
-                <div className={classes.sectionDesktop}>
-                  <IconButton aria-label="show 4 new mails" color="inherit">
-                    <Badge badgeContent={4} color="secondary">
-                      <MailIcon />
-                    </Badge>
-                  </IconButton>
-                  <IconButton aria-label="show 17 new notifications" color="inherit">
-                    <Badge badgeContent={17} color="secondary">
-                      <NotificationsIcon />
-                    </Badge>
-                  </IconButton>
-                  <IconButton
-                    edge="end"
-                    aria-label="account of current user"
-                    aria-controls={this.menuId}
-                    aria-haspopup="true"
-                    onClick={this.handleProfileMenuOpen}
-                    color="inherit"
-                  >
-                    <AccountCircle />
-                  </IconButton>
-                </div>
-                <div className={classes.sectionMobile}>
-                  <IconButton
-                    aria-label="show more"
-                    aria-controls={this.mobileMenuId}
-                    aria-haspopup="true"
-                    onClick={this.handleMobileMenuOpen}
-                    color="inherit"
-                  >
-                    <MoreIcon />
-                  </IconButton>
-                </div>
+                  {
+                    auth.isLogin ?
+                    <>
+                      <div className={classes.sectionDesktop}>
+                        <IconButton aria-label="show 4 new mails" color="inherit">
+                          <Badge badgeContent={4} color="secondary">
+                            <MailIcon />
+                          </Badge>
+                        </IconButton>
+                        <IconButton aria-label="show 17 new notifications" color="inherit">
+                          <Badge badgeContent={17} color="secondary">
+                            <NotificationsIcon />
+                          </Badge>
+                        </IconButton>
+                        <div>
+                          <Button color='inherit' style={{textTransform: 'none'}} onClick={this.handleProfileMenuOpen}>
+                            <IconButton
+                              edge="end"
+                              aria-label="account of current user"
+                              aria-controls={this.menuId}
+                              aria-haspopup="true"
+                              // onClick={this.handleProfileMenuOpen}
+                              color="inherit"
+                            >
+                              <AccountCircle /> 
+                            </IconButton>
+                            {auth.username}
+                          </Button>
+                        </div>
+                      </div>
+                      <div className={classes.sectionMobile}>
+                        <IconButton
+                          aria-label="show more"
+                          aria-controls={this.mobileMenuId}
+                          aria-haspopup="true"
+                          onClick={this.handleMobileMenuOpen}
+                          color="inherit"
+                        >
+                          <MoreIcon />
+                        </IconButton>
+                      </div>
+                  </>
+                  :
+                  <>
+
+                    <div className={classes.sectionDesktop}>
+                      <Link to= '/login' className='txt-link'>
+                        <Button className='bg-light'>
+                          Login  
+                        </Button> 
+                      </Link>
+                    </div>
+                    <div className={classes.sectionMobile}>
+                      <IconButton
+                        aria-label="show more"
+                        aria-controls={this.mobileMenuId}
+                        aria-haspopup="true"
+                        onClick={this.handleMobileMenuOpen}
+                        color="inherit"
+                      >
+                        <MoreIcon />
+                      </IconButton>
+                    </div>
+                  </>
+                  }
+             
               </Toolbar>
             </AppBar>
             {this.renderMobileMenu()}
             {this.renderMenu()}
         </div>
-          {this.props.children}
+  
         </>
 
         );
     }
 }
- 
-export default withStyles(styles) (Header);
+
+const mapStateToProps = (state) =>{
+    return{
+      auth : state.auth
+    }
+}
+
+export default connect(mapStateToProps)  (withStyles(styles) (Header));
 

@@ -7,6 +7,25 @@ const INITIAL_STATE = {
   isLogin: false,
 };
 
+// payload
+// {
+//   "id": 1,
+//   "username": "dino",
+//   "password": "abcde",
+//   "email": "dinopwdk@gmail.com",
+//   "role": "user",
+// }
+
+//? hasil akhir
+// return {
+//    "id": 1,
+//   "username": "dino",
+//   "password": "abcde",
+//   "email": "dinopwdk@gmail.com",
+//   "role": "user",
+//    isLogin: true
+// }
+
 const authReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case "LOGIN":

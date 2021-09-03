@@ -4,7 +4,9 @@ import { Login } from "./pages/user";
 
 import { Switch, Route } from "react-router-dom";
 import Home from "./pages/Home";
-import AdminContainer from "./pages/admin/adminContainer";
+import PageNotFound from "./pages/pageNotFound";
+
+import AdminPage from "./pages/admin/adminPage";
 import axios from "axios";
 import { connect } from "react-redux";
 import { LoginAction } from "./redux/actions";
@@ -38,6 +40,45 @@ class App extends Component {
     }
   }
 
+  renderAdminRoute = () => {
+    return (
+      <Switch>
+        <Route path="/" exact component={Home} />
+        <Route path="/admin" component={AdminPage} />
+        <Route path="/login" exact component={Login} />
+        <Route path="*" component={PageNotFound} />
+      </Switch>
+    );
+  };
+
+  renderUserRoute = () => (
+    <Switch>
+      <Route path="/" exact component={Home} />
+      <Route path="/login" exact component={Login} />
+      <Route path="*" component={PageNotFound} />
+    </Switch>
+  );
+
+  renderUmum = () => (
+    <Switch>
+      <Route path="/" exact component={Home} />
+      <Route path="/login" exact component={Login} />
+      <Route path="*" component={PageNotFound} />
+    </Switch>
+  );
+
+  renderFinal = () => {
+    let { role } = this.props.auth;
+
+    if (role === "admin") {
+      return this.renderAdminRoute();
+    } else if (role === "user") {
+      return this.renderUserRoute();
+    } else {
+      return this.renderUmum();
+    }
+  };
+
   render() {
     if (this.state.loading) {
       return (
@@ -49,15 +90,17 @@ class App extends Component {
     return (
       <div>
         {/* <Header /> */}
-        <Switch>
-          <Route path="/" exact component={Home} />
-          <Route path="/admin" exact component={AdminContainer} />
-          <Route path="/login" exact component={Login} />
-        </Switch>
+        {this.renderFinal()}
         <ToastContainer />
       </div>
     );
   }
 }
 
-export default connect(null, { LoginAction })(App);
+const mapStateToProps = (state) => {
+  return {
+    auth: state.auth,
+  };
+};
+
+export default connect(mapStateToProps, { LoginAction })(App);

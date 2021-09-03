@@ -6,7 +6,7 @@ import { Redirect } from 'react-router-dom';
 import {connect} from 'react-redux'
 import { LoginAction } from '../../redux/actions';
 import {toast} from 'react-toastify'
-
+import {Link} from 'react-router-dom'
 import {AiFillCheckCircle} from 'react-icons/ai'
 import {API_URL} from './../../helpers/ApiUrl'
 
@@ -130,6 +130,14 @@ class Login extends Component {
                                 />
                                 <div className='align-self-end'>
                                     <input type="checkbox" onChange={this.onCheckShow} /> show password
+                                </div>
+                                <div className='align-self-end'>
+                                    {/* ke /register harusnya */}
+                                    <Link to='/'>No Account? Sign Up!</Link> 
+                                </div>
+                                <div className='align-self-end'>
+                                    {/* ke /register harusnya */}
+                                    <Link to='/'>or to Home</Link> 
                                 </div>
                                 <div className='align-self-start button-log-cont'>
                                     <button className=' login-button  py-2 px-4 rounded' type='submit' >

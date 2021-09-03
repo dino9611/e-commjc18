@@ -15,3 +15,13 @@ body {
   background-color: #003e4d;
   color: white;
 }
+
+.txt-link {
+  text-decoration: none;
+  color: initial;
+}
+.txt-link:hover {
+  text-decoration: none !important;
+
+  color: initial;
+}

@@ -2,17 +2,29 @@ import React, { Component } from 'react';
 import HeaderAdmin from '../../components/HeaderAdmin';
 import './styles/manageProduct.css'
 import ManageProductComp from './manageProduct'
+import NotFound from '../pageNotFound';
 
-class ManageProductPage extends Component {
+class AdminContainer extends Component {
     state = {  }
     render() { 
-        return (
-            <div className='manageproduct-container'>
-                <HeaderAdmin/>
-                <ManageProductComp/>
-            </div>
-          );
+        const {subMenu} =this.props.match.params
+        // console.log(subMenu)
+        if(subMenu === 'manage'){
+            return (
+                <>
+                    <HeaderAdmin subMenu={subMenu}/>
+                    <ManageProductComp/>
+                </>
+            );
+        }else{
+            return (
+                <>
+                    <HeaderAdmin/>
+                    <NotFound/>
+                </>
+            )
+        }
     }
 }
- 
-export default ManageProductPage;
+  
+export default AdminContainer;
