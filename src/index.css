@@ -25,3 +25,14 @@ body {
 
   color: initial;
 }
+
+.card-prod-img {
+  height: 35vh !important;
+  object-fit: cover;
+}
+
+.product-container {
+  display: grid;
+  grid-template-columns: 20% 80%;
+  min-height: 100vh;
+}
