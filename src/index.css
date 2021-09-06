@@ -66,3 +66,16 @@ body {
 .detail-ket {
   grid-area: ket;
 }
+
+.skeleton {
+  animation: shine 1s linear infinite alternate;
+}
+
+@keyframes shine {
+  0% {
+    background-color: hsl(200, 20%, 70%);
+  }
+  100% {
+    background-color: hsl(200, 20%, 95%);
+  }
+}

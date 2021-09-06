@@ -9,27 +9,49 @@ export const LoginAction = (userdata) => {
   };
 };
 
+export const LogoutAction = () => {
+  return {
+    type: "LOGOUT",
+  };
+};
 export const AddToCartAction = (data, userId) => {
   // data object
 
   return (dispatch) => {
+    //get data user cart
+    dispatch({ type: "LoadingCarts" });
+    axios.get(`${API_URL}/users/${userId}`).then((res) => {
+      let carts = res.data.carts; //array
+      // add cart
+      // cek ada atau tidak product didalam cart yang ada
+      let indexfind = carts.findIndex((val) => val.id == data.id);
+      if (indexfind < 0) {
+        carts.push(data);
+      } else {
+        carts[indexfind].qty += data.qty;
+      }
+      axios
+        .patch(`${API_URL}/users/${userId}`, { carts: carts })
+        .then(() => {
+          // refresh userdata
+          axios
+            .get(`${API_URL}/users/${userId}`)
+            .then((res1) => {
+              dispatch({ type: "CART", carts: res1.data.carts });
+              toast.success("berhasil add to cart");
+              dispatch({ type: "AFTERPROCESS" });
+            })
+            .catch((err) => {
+              console.log(err);
+              dispatch({ type: "AFTERPROCESS" });
+            });
+        })
+        .catch((err) => {
+          console.log(err);
+          dispatch({ type: "AFTERPROCESS" });
+        });
+    });
+
     // add cart
-    axios
-      .post(`${API_URL}/carts`, data)
-      .then(() => {
-        // get cart dengan userid terntentu
-        axios
-          .get(`${API_URL}/carts?_expand=product&userId=${userId}`)
-          .then((res) => {
-            dispatch({ type: "CART", carts: res.data });
-            toast.success("berhasil Add To Cart");
-          })
-          .catch(() => {
-            alert("error server");
-          });
-      })
-      .catch((err) => {
-        alert("error");
-      });
   };
 };

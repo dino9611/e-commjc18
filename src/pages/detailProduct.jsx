@@ -54,9 +54,9 @@ class DetailProd extends Component {
       }
       return; // biar koding berenti disini
     }
+    let dataProd = this.state.detailProd;
     let AddCart = {
-      userId: userId,
-      productId: this.state.detailProd.id,
+      ...dataProd,
       qty: parseInt(this.state.qty),
     };
     this.props.AddToCartAction(AddCart, userId);
@@ -148,14 +148,20 @@ class DetailProd extends Component {
                 <div className="my-4 d-flex my-5 ">
                   <ButtonComp
                     className="w-100 p-3"
+                    disabled={this.props.userData.loadingCarts}
                     onClick={this.onAddTocartClick}
                   >
-                    Add To Cart
+                    {this.props.userData.loadingCarts
+                      ? "loading"
+                      : "Add To Cart"}
                   </ButtonComp>
                 </div>
               </div>
             </div>
-            <div className="detail-ket">{keterangan}</div>
+            <div className="detail-ket">
+              <p>Keterangan:</p>
+              {keterangan}
+            </div>
           </div>
         </div>
       </div>

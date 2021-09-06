@@ -39,7 +39,7 @@ class Products extends Component {
               <CardImg
                 top
                 width="100%"
-                className="card-prod-img "
+                className="card-prod-img skeleton "
                 src={val.image}
                 alt="Card image cap"
               />

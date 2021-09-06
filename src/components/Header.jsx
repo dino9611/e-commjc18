@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { alpha, withStyles, makeStyles } from "@material-ui/core/styles";
+import { alpha, withStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
@@ -8,15 +8,17 @@ import InputBase from "@material-ui/core/InputBase";
 import Badge from "@material-ui/core/Badge";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
-import MenuIcon from "@material-ui/icons/Menu";
+
 import SearchIcon from "@material-ui/icons/Search";
 import AccountCircle from "@material-ui/icons/AccountCircle";
-import MailIcon from "@material-ui/icons/Mail";
+
+import ShoppingCart from "@material-ui/icons/ShoppingCart";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { Button } from "@material-ui/core";
+import { LogoutAction } from "./../redux/actions";
 
 const styles = (theme) => ({
   grow: {
@@ -122,6 +124,11 @@ class Header extends Component {
     });
   };
 
+  onLogout = () => {
+    localStorage.removeItem("id");
+    this.props.LogoutAction();
+  };
+
   menuId = "primary-search-account-menu";
 
   renderMenu = () => (
@@ -140,11 +147,17 @@ class Header extends Component {
         </Link>
       ) : (
         [
-          <MenuItem onClick={this.handleMenuClose}>Profile</MenuItem>,
-          <MenuItem onClick={this.handleMenuClose}>My account</MenuItem>,
+          <MenuItem key="1" onClick={this.handleMenuClose}>
+            Profile
+          </MenuItem>,
+          <MenuItem key="2" onClick={this.handleMenuClose}>
+            My account
+          </MenuItem>,
         ]
       )}
-      <MenuItem>LogOut</MenuItem>
+      <Link className="txt-link" to="/">
+        <MenuItem onClick={this.onLogout}>LogOut</MenuItem>
+      </Link>
     </Menu>
   );
 
@@ -161,32 +174,33 @@ class Header extends Component {
     >
       {this.props.auth.isLogin ? (
         <>
-          {this.props.auth.role === "admin" ? null : (
-            <>
-              <MenuItem>
-                <IconButton aria-label="show 4 new mails" color="inherit">
-                  <Badge
-                    badgeContent={this.props.auth.carts.length}
-                    color="secondary"
+          {this.props.auth.role === "admin"
+            ? null
+            : [
+                <MenuItem>
+                  <IconButton aria-label="show 4 new mails" color="inherit">
+                    <Badge
+                      badgeContent={this.props.auth.carts.length}
+                      color="secondary"
+                    >
+                      <ShoppingCart />
+                    </Badge>
+                  </IconButton>
+                  <p>Carts</p>
+                </MenuItem>,
+                <MenuItem>
+                  <IconButton
+                    aria-label="show 11 new notifications"
+                    color="inherit"
                   >
-                    <MailIcon />
-                  </Badge>
-                </IconButton>
-                <p>Messages</p>
-              </MenuItem>
-              <MenuItem>
-                <IconButton
-                  aria-label="show 11 new notifications"
-                  color="inherit"
-                >
-                  <Badge badgeContent={11} color="secondary">
-                    <NotificationsIcon />
-                  </Badge>
-                </IconButton>
-                <p>Notifications</p>
-              </MenuItem>
-            </>
-          )}
+                    <Badge badgeContent={11} color="secondary">
+                      <NotificationsIcon />
+                    </Badge>
+                  </IconButton>
+                  <p>Notifications</p>
+                </MenuItem>,
+              ]}
+
           <MenuItem onClick={this.handleProfileMenuOpen}>
             <IconButton
               aria-label="account of current user"
@@ -250,35 +264,29 @@ class Header extends Component {
                         badgeContent={this.props.auth.carts.length}
                         color="secondary"
                       >
-                        <MailIcon />
+                        <ShoppingCart />
                       </Badge>
                     </IconButton>
                     <IconButton
                       aria-label="show 17 new notifications"
                       color="inherit"
                     >
-                      <Badge badgeContent={17} color="secondary">
+                      <Badge badgeContent={0} color="secondary">
                         <NotificationsIcon />
                       </Badge>
                     </IconButton>
                     <div>
-                      <Button
-                        color="inherit"
-                        style={{ textTransform: "none" }}
+                      <IconButton
+                        edge="end"
+                        aria-label="account of current user"
+                        aria-controls={this.menuId}
+                        aria-haspopup="true"
                         onClick={this.handleProfileMenuOpen}
+                        color="inherit"
                       >
-                        <IconButton
-                          edge="end"
-                          aria-label="account of current user"
-                          aria-controls={this.menuId}
-                          aria-haspopup="true"
-                          // onClick={this.handleProfileMenuOpen}
-                          color="inherit"
-                        >
-                          <AccountCircle />
-                        </IconButton>
-                        {auth.username}
-                      </Button>
+                        <AccountCircle />
+                        <Typography>{auth.username}</Typography>
+                      </IconButton>
                     </div>
                   </div>
                   <div className={classes.sectionMobile}>
@@ -329,4 +337,6 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(withStyles(styles)(Header));
+export default connect(mapStateToProps, { LogoutAction })(
+  withStyles(styles)(Header)
+);

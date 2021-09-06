@@ -5,14 +5,31 @@
       "username": "dino",
       "password": "abcde",
       "email": "dinopwdk@gmail.com",
-      "role": "user"
+      "role": "user",
+      "carts": [
+        {
+          "id": 1,
+          "name": "kursi",
+          "price": 200000,
+          "image": "https://images.unsplash.com/photo-1592078615290-033ee584e267",
+          "stock": 5,
+          "categoryId": 1,
+          "keterangan": "kursi bagus",
+          "category": {
+            "id": 1,
+            "name": "urban"
+          },
+          "qty": 4
+        }
+      ]
     },
     {
       "id": 2,
       "username": "admin",
       "password": "abcde",
       "email": "admin@gmail.com",
-      "role": "admin"
+      "role": "admin",
+      "carts": []
     }
   ],
   "categories": [
@@ -90,30 +107,6 @@
       "keterangan": "Aestetic"
     }
   ],
-  "carts": [
-    {
-      "id": 1,
-      "userId": 1,
-      "productId": 1,
-      "qty": 2
-    },
-    {
-      "userId": 1,
-      "productId": 4,
-      "qty": 1,
-      "id": 2
-    },
-    {
-      "userId": 1,
-      "productId": 1,
-      "qty": 1,
-      "id": 3
-    },
-    {
-      "userId": 1,
-      "productId": 1,
-      "qty": 1,
-      "id": 4
-    }
-  ]
+  "transactions": [],
+  "transactionDetails": []
 }
