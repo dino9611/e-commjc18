@@ -1,73 +1,97 @@
-.login-container {
-  background-color: whitesmoke;
-  box-shadow: 2px 7px 29px 0px rgba(168, 168, 168, 0.75);
-  -webkit-box-shadow: 2px 7px 29px 0px rgba(168, 168, 168, 0.75);
-  -moz-box-shadow: 2px 7px 29px 0px rgba(168, 168, 168, 0.75);
-  height: 85vh;
+.shadow1 {
+  box-shadow: -8px 9px 39px -2px rgba(0, 0, 0, 0.65);
+  -webkit-box-shadow: -8px 9px 39px -2px rgba(0, 0, 0, 0.65);
+  -moz-box-shadow: -8px 9px 39px -2px rgba(0, 0, 0, 0.65);
 }
+.Login-container {
+  display: flex;
+  flex-direction: row;
+  width: 100vw;
+  height: 60vh;
 
-.img-wrap {
+  align-items: flex-start;
+}
+.Login-container > img {
+  left: 50%;
+  transform: translate(-50%, 0);
+  position: absolute;
+  z-index: -1;
+  max-width: 992px;
+}
+.Login-container > .a {
+  display: flex;
+  flex-direction: column;
+
+  margin: 3%;
+  padding: 10px;
+  background-color: rgb(243, 241, 108);
+  border-radius: 10px;
   width: 100%;
-  height: 100%;
-
-  display: inline-block;
-  overflow: hidden;
-  /* margin: -100px; */
+}
+.Login-container > .a > input {
+  margin: 0.5%;
+  width: 50%;
+}
+.Login-container > .a > .checkb {
+  align-self: flex-start;
+  width: initial;
+  bottom: 0;
+  right: 0;
+}
+.Login-container > .a > button {
+  align-self: flex-start;
+  width: 50px;
+  bottom: 0;
+  right: 0;
+  border-style: none;
 }
 
-.login-button {
-  background-color: #003e4d;
-  color: white;
-  border: none;
-  width: 100%;
-  font-weight: bold;
+@media (min-width: 576px) {
 }
 
-/* .MuiSnackbar-root {
-  background-color: tomato !important;
-} */
-
-.MuiSnackbarContent-root {
-  background-color: #003e4d !important;
-}
-
-.Toastify__progress-bar--success {
-  background-color: white !important;
-}
-
-.Toastify__toast--success {
-  background-color: #003e4d !important;
-  color: white !important;
-}
-
-.Toastify__close-button--success {
-  color: white !important;
-}
-.Toastify__close-button--default {
-  color: white !important;
-}
-
-/* 
-@media query only screen and max */
-@media only screen and (max-width: 500px) {
-  .login-container {
-    height: 100vh;
+@media (min-width: 768px) {
+  .Login-container img {
+    max-width: 992px;
   }
-  .tinggi-img {
+}
+
+@media (min-width: 992px) {
+  .Login-container > img {
+    left: 0;
+    /* transform: translate(0, 0); */
+    transform: initial;
+    position: relative;
+    border-radius: 0 0 10px;
+  }
+  .Login-container > .a {
+    border-radius: 10px 0 0 10px;
+    margin: 0;
+    right: 0;
+    width: 33%;
     position: absolute;
-    background-color: white !important;
-    height: 50vh;
-    border-top-right-radius: 20px;
-    border-top-left-radius: 20px;
-    top: 50%;
-    /* bottom: 50%; */
-    /* z-index: 100; */
+    height: 80vh;
   }
-  .img-wrap {
-    height: 60vh;
-  }
-  .button-log-cont {
+  .Login-container > .a > input {
+    /* align-self: flex-start; */
+    margin: 0.5%;
     width: 100%;
-    margin-top: 2em;
   }
+  .Login-container > .a > .checkb {
+    align-self: flex-end;
+    width: initial;
+    /* justify-self: end;
+    align-self: flex-end; */
+    bottom: 0;
+    right: 0;
+  }
+  .Login-container > .a > button {
+    margin-top: 5px;
+    align-self: flex-end;
+  }
+}
+
+@media (min-width: 1200px) {
+}
+
+@media (min-width: 1400px) {
 }

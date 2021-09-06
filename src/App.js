@@ -1,58 +1,64 @@
-import React, { Component } from "react";
-import "./App.css";
-import { Login } from "./pages/user";
+import React, { Component } from 'react';
+//? redux
+import { connect } from 'react-redux';
+import { loginAction } from './states/actions';
+//? material UI
+// import { Button } from '@material-ui/core';
+//? pages
+import { Home } from './pages';
+import { Login } from './pages/user';
+import { ManageProduct } from './pages/admin';
+//? router
+import { Switch, Route } from 'react-router-dom';
+//? css
+import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+//? axios
+import axios from 'axios';
+//? components
+import { Header1 } from './components';
 
-import { Switch, Route } from "react-router-dom";
-import Home from "./pages/Home";
-import axios from "axios";
-import { connect } from "react-redux";
-import { LoginAction } from "./redux/actions";
-import { ToastContainer } from "react-toastify";
-
-import "react-toastify/dist/ReactToastify.css";
-import { API_URL } from "./helpers/ApiUrl";
 class App extends Component {
   state = {
     loading: true,
   };
 
-  componentDidMount() {
-    let id = localStorage.getItem("id");
+  componentDidMount = () => {
+    let id = localStorage.getItem('id');
     if (id) {
       axios
-        .get(`${API_URL}/users/${id}`)
+        .get(`http://localhost:5000/users/${id}`)
         .then((res) => {
-          this.props.LoginAction(res.data);
+          this.props.loginAction(res.data);
         })
-        .catch((err) => {
-          alert("server error");
+        .catch(() => {
+          alert('server error');
         })
         .finally(() => {
           this.setState({ loading: false });
         });
-    } else {
-      this.setState({ loading: false });
-    }
-  }
+    } else this.setState({ loading: false });
+  };
 
-  render() {
+  render = () => {
     if (this.state.loading) {
       return (
-        <div>
-          <h1>Loadingg</h1>
-        </div>
+        <>
+          <div>loading</div>
+        </>
       );
     }
     return (
-      <div>
+      <>
+        <Header1 />
         <Switch>
-          <Route path="/" exact component={Home} />
-          <Route path="/login" exact component={Login} />
+          <Route exact path={'/'} component={Home} />
+          <Route exact path={'/login'} component={Login} />
+          <Route exact path={'/admin'} component={ManageProduct} />
         </Switch>
-        <ToastContainer />
-      </div>
+      </>
     );
-  }
+  };
 }
 
-export default connect(null, { LoginAction })(App);
+export default connect(null, { loginAction })(App);

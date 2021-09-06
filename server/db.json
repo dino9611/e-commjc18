@@ -1,18 +1,93 @@
 {
-    "users":[
-        {
-            "id":1,
-            "username":"dino",
-            "password":"abcde",
-            "email":"dinopwdk@gmail.com",
-            "role":"user"
-        },
-        {
-            "id":2,
-            "username":"admin",
-            "password":"abcde",
-            "email":"admin@gmail.com",
-            "role":"admin"
-        }
-    ]
+  "users": [
+    {
+      "id": 1,
+      "username": "dino",
+      "password": "abcde",
+      "email": "dinopwdk@gmail.com",
+      "role": "user"
+    },
+    {
+      "id": 2,
+      "username": "admin",
+      "password": "abcde",
+      "email": "admin@gmail.com",
+      "role": "admin"
+    }
+  ],
+  "categories": [
+    {
+      "id": 1,
+      "name": "urban"
+    },
+    {
+      "id": 2,
+      "name": "industry"
+    }
+  ],
+  "products": [
+    {
+      "name": "kursi",
+      "price": 200000,
+      "image": "https://images.unsplash.com/photo-1592078615290-033ee584e267",
+      "stock": 5,
+      "categoryId": 1,
+      "keterangan": "kursi bagus",
+      "id": 1
+    },
+    {
+      "id": 2,
+      "name": "sofa",
+      "price": 500000,
+      "image": "https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80",
+      "stock": 5,
+      "categoryId": 2,
+      "keterangan": "u"
+    },
+    {
+      "name": "meja kayu",
+      "price": 700000,
+      "image": "https://images.unsplash.com/photo-1486946255434-2466348c2166?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=334&q=80",
+      "stock": 6,
+      "categoryId": 1,
+      "keterangan": "u",
+      "id": 3
+    },
+    {
+      "name": "kursi kerja",
+      "image": "https://images.unsplash.com/photo-1492138786289-d35ea832da43?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80",
+      "price": 200000,
+      "stock": 10,
+      "keterangan": "kursi kece cuy",
+      "categoryId": 1,
+      "id": 4
+    },
+    {
+      "name": "sofa",
+      "price": 100000,
+      "image": "https://image.freepik.com/free-photo/modern-living-room-interior-scandinavian-style-3d-illustration-living-room-mockup_180507-74.jpg",
+      "stock": 2,
+      "categoryId": 1,
+      "keterangan": "sofa banget",
+      "id": 5
+    },
+    {
+      "name": "kursi merah",
+      "price": 20000,
+      "image": "https://image.freepik.com/free-vector/red-plastic-chair-isolated_1284-41858.jpg",
+      "stock": 100,
+      "categoryId": 2,
+      "keterangan": "merah",
+      "id": 6
+    },
+    {
+      "name": "lemari",
+      "price": 1000000,
+      "image": "https://image.freepik.com/free-photo/3d-rendering-minimal-scandinavian-walk-closet-with-wood-wardrobe_105762-230.jpg",
+      "stock": 3,
+      "categoryId": 1,
+      "keterangan": "asdasd",
+      "id": 7
+    }
+  ]
 }

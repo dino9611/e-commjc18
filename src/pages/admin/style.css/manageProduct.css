@@ -1,0 +1,69 @@
+.ManageProduct-item {
+  display: flex;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.1rem;
+  justify-content: space-around;
+  width: 80vw;
+  border: solid 1px black;
+  background-color: rgb(214, 210, 190);
+}
+.ManageProduct-item > :nth-child(n) {
+  /* border: solid 1px black; */
+  flex: 5;
+  height: 120px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.ManageProduct-item > :nth-child(1) {
+  flex: 1;
+  font-weight: 900;
+}
+.ManageProduct-item > :nth-child(3) {
+  flex: 7;
+}
+.ManageProduct-item > :nth-child(5) {
+  flex: 2;
+}
+.ManageProduct-item > :nth-child(7) {
+  flex: 7;
+}
+
+.ManageProduct-item img {
+  /* width: 150px; */
+  height: 100px;
+}
+
+.item-description {
+  justify-self: flex-start;
+  background-color: rgb(108, 177, 209);
+}
+.item-description > :nth-child(n) {
+  border: solid 1px black;
+  height: initial;
+}
+
+.prev-next {
+  justify-content: space-between;
+  border-radius: 0 0 10px 10px;
+}
+.prev-next > :nth-child(n) {
+  height: initial;
+  flex: initial;
+  font-weight: normal;
+}
+.prev-next > :first-child {
+  margin-left: 10px;
+  cursor: pointer;
+}
+.prev-next > :nth-child(2) {
+  margin-left: 10px;
+}
+.prev-next > :nth-child(3) {
+  margin-left: 10px;
+}
+.prev-next > :last-child {
+  margin-right: 10px;
+  cursor: pointer;
+}
