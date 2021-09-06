@@ -1,0 +1,75 @@
+.Header1-container {
+  display: grid;
+  background-color: rgb(97, 56, 245);
+  grid-template-columns: 1fr 1fr;
+  font-family: 'Poppins', sans-serif;
+  color: black;
+  align-content: center;
+  padding: 0 20px;
+}
+.Header1-container > :nth-child(n) {
+  /* border: solid 1px white; */
+  background-color: rgba(0, 0, 0, 0);
+}
+.Header1-container > :nth-child(1) {
+  font-weight: 700;
+  font-size: 2rem;
+  /* cursor: pointer; */
+}
+.Header1-container > :nth-child(2) {
+  justify-self: end;
+  cursor: pointer;
+}
+.Header1-container img {
+  margin-top: 4px;
+  max-height: 40px;
+}
+
+.Header1-popup {
+  color: white;
+  font-family: 'Poppins', sans-serif;
+  background-color: rgb(60, 22, 197);
+  height: 100px;
+  width: 180px;
+  border-radius: 4px;
+  padding: 10px;
+  justify-content: space-around;
+  display: flex;
+  /* border: solid 3px rgb(199, 185, 252); */
+  position: absolute;
+  flex-direction: column;
+  top: 47px;
+  right: -180px;
+  transition: 0.4s ease;
+  z-index: 99;
+  transform: translateX(-100%);
+}
+.Header1-popup > :nth-child(n) {
+  cursor: pointer;
+}
+.Header1-popup.Header1-hidePopup {
+  transform: translateX(0%);
+  opacity: 0.4;
+}
+
+.Header1-btn:hover {
+  color: black;
+}
+
+@media (min-width: 576px) {
+}
+
+@media (min-width: 768px) {
+}
+
+@media (min-width: 992px) {
+  .Header1-container {
+    height: 80px;
+  }
+}
+
+@media (min-width: 1200px) {
+}
+
+@media (min-width: 1400px) {
+}
