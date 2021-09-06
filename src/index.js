@@ -6,11 +6,12 @@ import { BrowserRouter } from "react-router-dom";
 import App from "./App";
 import reducer from "./redux/reducers";
 import { Provider } from "react-redux";
-import { createStore } from "redux";
+import Thunk from "redux-thunk";
+import { createStore, applyMiddleware } from "redux";
 // import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
-  <Provider store={createStore(reducer)}>
+  <Provider store={createStore(reducer, {}, applyMiddleware(Thunk))}>
     <BrowserRouter>
       <App />
     </BrowserRouter>

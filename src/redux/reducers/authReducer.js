@@ -5,6 +5,7 @@ const INITIAL_STATE = {
   email: "",
   role: "",
   isLogin: false,
+  carts: [],
 };
 
 // payload
@@ -32,6 +33,8 @@ const authReducer = (state = INITIAL_STATE, action) => {
       return { ...state, ...action.payload, isLogin: true };
     case "LOGOUT":
       return INITIAL_STATE;
+    case "CART":
+      return { ...state, carts: action.carts };
     default:
       return state;
   }

@@ -26,6 +26,13 @@ body {
   color: initial;
 }
 
+.link-breadCrumb {
+  color: lightgrey;
+}
+.link-breadCrumb:hover {
+  color: #003e4d;
+}
+
 .card-prod-img {
   height: 35vh !important;
   object-fit: cover;
@@ -35,4 +42,27 @@ body {
   display: grid;
   grid-template-columns: 20% 80%;
   min-height: 100vh;
+}
+
+.detail-product-container {
+  display: grid;
+  grid-template-columns: 40% 60%;
+  grid-template-rows: 80% 20%;
+  grid-template-areas:
+    "image detail"
+    "ket ket";
+  min-height: 80vh;
+}
+
+.detail-image {
+  grid-area: image;
+  background-color: lightpink;
+  overflow: hidden;
+}
+.detail-prod {
+  grid-area: detail;
+}
+
+.detail-ket {
+  grid-area: ket;
 }

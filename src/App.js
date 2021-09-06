@@ -5,8 +5,9 @@ import { Login } from "./pages/user";
 import { Switch, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import PageNotFound from "./pages/pageNotFound";
-
+import DetailProd from "./pages/detailProduct";
 import AdminPage from "./pages/admin/adminPage";
+import Products from "./pages/products";
 import axios from "axios";
 import { connect } from "react-redux";
 import { LoginAction } from "./redux/actions";
@@ -16,6 +17,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { API_URL } from "./helpers/ApiUrl";
 
 import Header from "./components/Header";
+import Loading from "./components/loading";
 class App extends Component {
   state = {
     loading: true,
@@ -44,8 +46,10 @@ class App extends Component {
     return (
       <Switch>
         <Route path="/" exact component={Home} />
+        <Route path="/products" exact component={Products} />
         <Route path="/admin" component={AdminPage} />
         <Route path="/login" exact component={Login} />
+        <Route path="/products/:idProd" component={DetailProd} />
         <Route path="*" component={PageNotFound} />
       </Switch>
     );
@@ -54,7 +58,9 @@ class App extends Component {
   renderUserRoute = () => (
     <Switch>
       <Route path="/" exact component={Home} />
+      <Route path="/products" exact component={Products} />
       <Route path="/login" exact component={Login} />
+      <Route path="/products/:idProd" component={DetailProd} />
       <Route path="*" component={PageNotFound} />
     </Switch>
   );
@@ -62,7 +68,9 @@ class App extends Component {
   renderUmum = () => (
     <Switch>
       <Route path="/" exact component={Home} />
+      <Route path="/products" exact component={Products} />
       <Route path="/login" exact component={Login} />
+      <Route path="/products/:idProd" component={DetailProd} />
       <Route path="*" component={PageNotFound} />
     </Switch>
   );
@@ -83,7 +91,7 @@ class App extends Component {
     if (this.state.loading) {
       return (
         <div>
-          <h1>Loadingg</h1>
+          <Loading />
         </div>
       );
     }
