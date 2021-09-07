@@ -79,3 +79,11 @@ body {
     background-color: hsl(200, 20%, 95%);
   }
 }
+
+.cart-position {
+  transform: translateY(35px) translatex(30px);
+}
+.cart-text {
+  font-weight: 600;
+  color: #003e4d;
+}

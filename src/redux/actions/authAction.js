@@ -55,3 +55,27 @@ export const AddToCartAction = (data, userId) => {
     // add cart
   };
 };
+
+export const UpdateCartAction = (newCart, userId) => {
+  // datacart = array
+  // index = number
+
+  return (dispatch) => {
+    axios
+      .patch(`${API_URL}/users/${userId}`, { carts: newCart })
+      .then(() => {
+        // refresh userdata
+        axios
+          .get(`${API_URL}/users/${userId}`)
+          .then((res1) => {
+            dispatch({ type: "CART", carts: res1.data.carts });
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      })
+      .catch((err) => {
+        alert(err);
+      });
+  };
+};

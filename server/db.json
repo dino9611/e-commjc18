@@ -8,18 +8,18 @@
       "role": "user",
       "carts": [
         {
-          "id": 1,
-          "name": "kursi",
-          "price": 200000,
-          "image": "https://images.unsplash.com/photo-1592078615290-033ee584e267",
+          "id": 2,
+          "name": "sofa",
+          "price": 500000,
+          "image": "https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80",
           "stock": 5,
-          "categoryId": 1,
-          "keterangan": "kursi bagus",
+          "categoryId": 2,
+          "keterangan": "u",
           "category": {
-            "id": 1,
-            "name": "urban"
+            "id": 2,
+            "name": "industry"
           },
-          "qty": 4
+          "qty": 1
         }
       ]
     },

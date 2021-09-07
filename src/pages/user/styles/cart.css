@@ -1,0 +1,22 @@
+.cart-img-wrapper {
+  height: 25vh;
+  width: 25%;
+  overflow: hidden !important;
+}
+
+.cart-img {
+  object-fit: cover !important;
+  overflow: hidden !important;
+}
+
+.cart-grid {
+  display: grid;
+  grid-template-columns: 60% 40%;
+}
+.cart-container {
+  height: 30vh;
+}
+
+.cart-checkout-cont {
+  height: 50vh;
+}

@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import "./App.css";
 import { Login } from "./pages/user";
-
 import { Switch, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import PageNotFound from "./pages/pageNotFound";
@@ -12,12 +11,11 @@ import axios from "axios";
 import { connect } from "react-redux";
 import { LoginAction } from "./redux/actions";
 import { ToastContainer } from "react-toastify";
-
 import "react-toastify/dist/ReactToastify.css";
 import { API_URL } from "./helpers/ApiUrl";
-
-import Header from "./components/Header";
+// import Header from "./components/Header";
 import Loading from "./components/loading";
+import Carts from "./pages/user/carts";
 class App extends Component {
   state = {
     loading: true,
@@ -61,6 +59,7 @@ class App extends Component {
       <Route path="/products" exact component={Products} />
       <Route path="/login" exact component={Login} />
       <Route path="/products/:idProd" component={DetailProd} />
+      <Route path="/cart" exact component={Carts} />
       <Route path="*" component={PageNotFound} />
     </Switch>
   );

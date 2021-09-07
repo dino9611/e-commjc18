@@ -19,6 +19,7 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { Button } from "@material-ui/core";
 import { LogoutAction } from "./../redux/actions";
+import { converToRupiah } from "../helpers/converToRupiah";
 
 const styles = (theme) => ({
   grow: {
@@ -32,6 +33,7 @@ const styles = (theme) => ({
   },
   title: {
     // display: 'none',
+    color: "white",
     [theme.breakpoints.up("sm")]: {
       display: "block",
     },
@@ -93,6 +95,8 @@ class Header extends Component {
     openMenu: false,
     openMobile: false,
     mobileMoreAnchorEl: null,
+    cartAnchorEl: null,
+    openCart: false,
   };
 
   // isMenuOpen = Boolean(this.state.anchorEl);
@@ -102,6 +106,13 @@ class Header extends Component {
     console.log(event.currentTarget);
 
     this.setState({ anchorEl: event.currentTarget, openMenu: true });
+  };
+
+  handleCartMenuOpen = (event) => {
+    this.setState({ cartAnchorEl: event.currentTarget, openCart: true });
+  };
+  handleCartMenuClose = (event) => {
+    this.setState({ cartAnchorEl: null, openCart: false });
   };
 
   handleMobileMenuClose = () => {
@@ -117,7 +128,6 @@ class Header extends Component {
 
   handleMobileMenuOpen = (event) => {
     console.log(event);
-
     this.setState({
       mobileMoreAnchorEl: event.currentTarget,
       openMobile: true,
@@ -129,8 +139,57 @@ class Header extends Component {
     this.props.LogoutAction();
   };
 
-  menuId = "primary-search-account-menu";
+  renderCartsList = () => {
+    if (this.props.auth.carts.length) {
+      return this.props.auth.carts.map((val, index) => {
+        return (
+          <MenuItem key={index} className="d-flex" style={{ width: 400 }}>
+            <div className="mr-2 card p-1 shadow">
+              <img
+                src={val.image}
+                height={100}
+                width={100}
+                style={{ objectFit: "cover" }}
+                alt={val.name}
+              />
+            </div>
+            <div className="py-2">
+              <div className="text-capitalize cart-text">{val.name}</div>
+              <div>price : {converToRupiah(val.price)}</div>
+              <div>qty : {val.qty} pcs</div>
+              <div>subTotal :{converToRupiah(val.price * val.qty)}</div>
+            </div>
+          </MenuItem>
+        );
+      });
+    } else {
+      return (
+        <MenuItem className="d-flex" style={{ width: 300 }}>
+          <div> CART Kosong </div>
+        </MenuItem>
+      );
+    }
+  };
 
+  renderCarts = () => (
+    <Menu
+      anchorEl={this.state.cartAnchorEl}
+      anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+      keepMounted
+      className="p-0 cart-position"
+      transformOrigin={{ vertical: "bottom", horizontal: "right" }}
+      open={this.state.openCart}
+      onClose={this.handleCartMenuClose}
+    >
+      {this.renderCartsList()}
+      <Link className="txt-link" to="/cart">
+        <MenuItem className=" d-flex justify-content-center align-items-center">
+          <span className="cart-text"> to Cart Page</span>
+        </MenuItem>
+      </Link>
+    </Menu>
+  );
+  menuId = "primary-search-account-menu";
   renderMenu = () => (
     <Menu
       anchorEl={this.state.anchorEl}
@@ -177,7 +236,7 @@ class Header extends Component {
           {this.props.auth.role === "admin"
             ? null
             : [
-                <MenuItem>
+                <MenuItem onClick={this.handleCartMenuOpen}>
                   <IconButton aria-label="show 4 new mails" color="inherit">
                     <Badge
                       badgeContent={this.props.auth.carts.length}
@@ -239,10 +298,12 @@ class Header extends Component {
                 >
                    <MenuIcon /> 
                 </IconButton> */}
-              <Typography className={classes.title} variant="h6" noWrap>
-                AKEA
-              </Typography>
-              <div className={classes.search}>
+              <Link className="txt-link" to="/">
+                <Typography className={classes.title} variant="h6" noWrap>
+                  AKEA
+                </Typography>
+              </Link>
+              {/* <div className={classes.search}>
                 <div className={classes.searchIcon}>
                   <SearchIcon />
                 </div>
@@ -254,12 +315,16 @@ class Header extends Component {
                   }}
                   inputProps={{ "aria-label": "search" }}
                 />
-              </div>
+              </div> */}
               <div className={classes.grow} />
               {auth.isLogin ? (
                 <>
                   <div className={classes.sectionDesktop}>
-                    <IconButton aria-label="show 4 new mails" color="inherit">
+                    <IconButton
+                      onClick={this.handleCartMenuOpen}
+                      aria-label="show 4 new mails"
+                      color="inherit"
+                    >
                       <Badge
                         badgeContent={this.props.auth.carts.length}
                         color="secondary"
@@ -325,6 +390,7 @@ class Header extends Component {
           </AppBar>
           {this.renderMobileMenu()}
           {this.renderMenu()}
+          {this.renderCarts()}
         </div>
       </>
     );
