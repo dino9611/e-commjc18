@@ -87,3 +87,63 @@ body {
   font-weight: 600;
   color: #003e4d;
 }
+
+.home-top {
+  height: 91vh;
+}
+.home-img {
+  object-fit: cover;
+}
+
+.lingkaran {
+  height: 500px;
+  width: 500px;
+  background-color: #003e4d3b;
+  position: absolute;
+  border-radius: 250px;
+  z-index: -1;
+  transition: 500ms;
+  transform: translateX(-300px) translateY(-350px);
+}
+
+.lingkaran1 {
+  height: 200px;
+  width: 200px;
+  background-color: #003e4d3b;
+  position: absolute;
+  border-radius: 100px;
+  z-index: -1;
+  transition: 500ms;
+  transform: translateX(190px) translateY(200px);
+}
+
+.box-home:hover .lingkaran1 {
+  transform: translateX(170px) translateY(190px);
+}
+/* .lingkaran:hover {
+  transform: translateX(-290px) translateY(-340px);
+} */
+
+.box-home:hover .lingkaran {
+  transform: translateX(-290px) translateY(-340px);
+}
+.jumbo-text {
+  color: #003e4d;
+}
+
+.btn-jumbo {
+  background-color: white !important;
+  border: #003e4d 2px solid !important;
+  color: #003e4d !important;
+  transition: 400ms;
+}
+
+.btn-jumbo:hover {
+  background-color: #003e4d !important;
+
+  color: white !important;
+}
+
+.jumbo2 {
+  background-color: #003e4d28;
+}
