@@ -34,7 +34,7 @@ body {
 }
 
 .card-prod-img {
-  height: 35vh !important;
+  height: 30vh !important;
   object-fit: cover;
 }
 

@@ -8,7 +8,8 @@ import { converToRupiah } from "../helpers/converToRupiah";
 import Typography from "@material-ui/core/Typography";
 import Breadcrumbs from "@material-ui/core/Breadcrumbs";
 import { debounce } from "throttle-debounce";
-
+// import NumberFormat from "react-number-format";
+import Pagination from "@material-ui/lab/Pagination";
 class Products extends Component {
   state = {
     products: [],
@@ -19,6 +20,9 @@ class Products extends Component {
     priceMin: "",
     priceMax: "",
     categories: [],
+    page: 1,
+    totalProduct: 0,
+    limit: 8,
   };
 
   componentDidMount() {
@@ -32,17 +36,22 @@ class Products extends Component {
     //     console.log(err);
     //   });
     let categories = axios.get(`${API_URL}/categories`);
-    let products = axios.get(`${API_URL}/products?_expand=category`);
+    let products = axios.get(
+      `${API_URL}/products?_expand=category&_page=${this.state.page}&_limit=${this.state.limit}`
+    );
 
     Promise.all([categories, products]).then((res) => {
-      console.log(res);
-      this.setState({ products: res[1].data, categories: res[0].data });
+      this.setState({
+        products: res[1].data,
+        categories: res[0].data,
+        totalProduct: res[1].headers["x-total-count"],
+      });
     });
   }
 
   productFilterHandler = () => {
     let { nameFilter, categoryId, priceMax, priceMin } = this.state;
-    let url = `${API_URL}/products?_expand=category`;
+    let url = `${API_URL}/products?_expand=category&_page=${this.state.page}&_limit=${this.state.limit}`;
     if (nameFilter) {
       url += `&name_like=${nameFilter}`;
     }
@@ -58,7 +67,10 @@ class Products extends Component {
 
     axios.get(url).then((res) => {
       console.log(res);
-      this.setState({ products: res.data });
+      this.setState({
+        products: res.data,
+        totalProduct: res.headers["x-total-count"],
+      });
     });
   };
 
@@ -70,6 +82,8 @@ class Products extends Component {
     ) {
       this.productFilterHandler();
     } else if (prevstate.nameFilter !== this.state.nameFilter) {
+      this.productFilterHandler();
+    } else if (prevstate.page !== this.state.page) {
       this.productFilterHandler();
     }
   }
@@ -138,8 +152,11 @@ class Products extends Component {
 
   inputChange = (e) => {
     console.log(e.target.value);
-    this.setState({ [e.target.name]: e.target.value });
+    this.setState({ [e.target.name]: e.target.value, page: 1 });
     // this.productFilterHandler();
+  };
+  onPageChange = (e, page) => {
+    this.setState({ page: page });
   };
 
   renderCategories = () => {
@@ -157,26 +174,47 @@ class Products extends Component {
         <Header />
         <div className="product-container">
           <div className="">
-            <div className="mt-5 px-5">
+            <div className="mt-5 px-4">
               <div
-                className="bg-danger"
-                style={{ height: "80vh", position: "sticky" }}
+                className="card p-2 shadow "
+                style={{ height: "45vh", position: "sticky" }}
               >
-                <div>
+                <h3 className="my-2">Filter</h3>
+                <div className="my-2 mt-4">
                   <select
                     onChange={this.inputChange}
                     name="categoryId"
+                    className="form-control decorated"
                     value={this.state.categoryId}
                   >
                     <option value={0}>All</option>
                     {this.renderCategories()}
                   </select>
                 </div>
-                <div>
+                <div className="my-2">
                   <input
                     type="text"
                     name="nameFilter"
-                    // value={this.state.nameFilter}
+                    placeholder="filterName"
+                    className="form-control"
+                    onChange={debounce(700, this.inputChange)}
+                  />
+                </div>
+                <div className="my-2">
+                  <input
+                    type="text"
+                    name="priceMin"
+                    placeholder="min. price"
+                    className="form-control"
+                    onChange={debounce(700, this.inputChange)}
+                  />
+                </div>
+                <div className="my-2">
+                  <input
+                    type="text"
+                    name="priceMax"
+                    placeholder="max price"
+                    className="form-control"
                     onChange={debounce(700, this.inputChange)}
                   />
                 </div>
@@ -186,6 +224,15 @@ class Products extends Component {
           <div className="container">
             {this.rendreBreadCrumbd()}
             <div className="row">{this.renderCard()}</div>
+            <div className="d-flex justify-content-center">
+              <Pagination
+                // defaultPage={0}
+                size={"small"}
+                page={this.state.page}
+                count={Math.ceil(this.state.totalProduct / this.state.limit)}
+                onChange={this.onPageChange}
+              />
+            </div>
           </div>
         </div>
 
