@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, createRef } from "react";
 import { connect } from "react-redux";
 import Header from "../../components/Header";
 import { converToRupiah } from "../../helpers/converToRupiah";
@@ -8,6 +8,10 @@ import "./styles/cart.css";
 import Swal from "sweetalert2";
 import NumberFormat from "react-number-format";
 import withReactContent from "sweetalert2-react-content";
+import ButtonComp from "../../components/Button";
+import axios from "axios";
+import { API_URL } from "../../helpers/ApiUrl";
+import { toast } from "react-toastify";
 
 const MySwal = withReactContent(Swal);
 
@@ -16,6 +20,12 @@ class Carts extends Component {
     modalopen: false,
     indexEdit: -1,
     qtyInput: 0,
+    banks: [
+      { name: "BCA", norek: "11000" },
+      { name: "mandiri", norek: "000111" },
+    ],
+    pilihanbank: {},
+    alamat: createRef(),
   };
 
   deleteCart = (index) => {
@@ -137,6 +147,84 @@ class Carts extends Component {
     );
   };
 
+  renderRadio = () => {
+    return this.state.banks.map((val, index) => {
+      return (
+        <span className="mr-3">
+          <input
+            key={index}
+            type="radio"
+            name="pilihanbank"
+            value={val.name}
+            className="mr-1"
+            checked={this.state.pilihanbank.name === val.name}
+            onClick={() => this.setState({ pilihanbank: val })}
+          />
+          {val.name}
+        </span>
+      );
+    });
+  };
+
+  hargaTotal = () => {
+    // let total = 0;
+    // let carts = this.props.carts;
+    // for (let i = 0; i < carts.length; i++) {
+    //   total += carts[i].qty * carts[i].price;
+    // }
+    // return total;
+    // atas bawah sama saja
+    return this.props.carts.reduce((preval, val) => {
+      return preval + val.qty * val.price;
+    }, 0);
+  };
+
+  onCheckoutHandler = () => {
+    let carts = this.props.carts;
+    let pajak = this.hargaTotal() * (10 / 100);
+    let ongkir = 200000;
+    let bank = this.state.pilihanbank.name;
+    let norek = this.state.pilihanbank.norek;
+    let userId = this.props.userId;
+    let transactionPost = {
+      status: "onWaiting",
+      alamat: this.state.alamat.current.value,
+      userId: userId,
+      pajak: pajak,
+      ongkir: ongkir,
+      bank: bank,
+      norek: norek,
+    };
+    axios
+      .post(`${API_URL}/transactions`, transactionPost)
+      .then((res) => {
+        console.log(res.data);
+        let transactionId = res.data.id;
+        // create array of promise (coding below)
+        let transactionDetails = carts.map((val) => {
+          let obj = {
+            transactionId: transactionId,
+            price: val.price,
+            productId: val.id,
+            qty: val.qty,
+          };
+          return axios.post(`${API_URL}/transactionDetails`, obj);
+        });
+
+        Promise.all(transactionDetails) // promise.all untuk ngelooping promise
+          .then(() => {
+            this.props.UpdateCartAction([], userId); //kosongkan array
+            toast.success("berhasil checkout");
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   render() {
     return (
       <div>
@@ -147,8 +235,56 @@ class Carts extends Component {
             <div>{this.renderCart()}</div>
             <div>
               <div className="px-5 py-2">
-                <div className="rounded shadow cart-checkout-cont">
-                  <h1>checkout</h1>
+                <div className="rounded shadow cart-checkout-cont px-3 py-2">
+                  <h2 className="text-center">CheckOut</h2>
+                  <textarea
+                    cols="30"
+                    ref={this.state.alamat}
+                    className="form-control mb-2"
+                    rows="5"
+                    placeholder="alamat Ex: jl. siswa Kuala tungkal"
+                  ></textarea>
+                  <h6>
+                    Total :
+                    <span className="float-right">
+                      {converToRupiah(this.hargaTotal())}
+                    </span>
+                  </h6>
+                  <h6>
+                    Pajak (10%) :
+                    <span className="float-right">
+                      {converToRupiah(this.hargaTotal() * (10 / 100))}
+                    </span>
+                  </h6>
+                  <h6>
+                    Ongkir :
+                    <span className="float-right">
+                      {converToRupiah(200000)}
+                    </span>
+                  </h6>
+                  <div>
+                    {/* <span className="float-right ">+</span> */}
+                    <hr />
+                  </div>
+                  <h6>
+                    Grand Total :
+                    <span className="float-right">
+                      {converToRupiah(
+                        this.hargaTotal() +
+                          this.hargaTotal() * (10 / 100) +
+                          200000
+                      )}
+                    </span>
+                  </h6>
+                  <div>{this.renderRadio()}</div>
+                  <div className="mt-3">
+                    <ButtonComp
+                      onClick={this.onCheckoutHandler}
+                      className="py-2 px-1"
+                    >
+                      CheckOut
+                    </ButtonComp>
+                  </div>
                 </div>
               </div>
             </div>

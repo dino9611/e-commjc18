@@ -6,22 +6,7 @@
       "password": "abcde",
       "email": "dinopwdk@gmail.com",
       "role": "user",
-      "carts": [
-        {
-          "id": 2,
-          "name": "sofa",
-          "price": 500000,
-          "image": "https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80",
-          "stock": 5,
-          "categoryId": 2,
-          "keterangan": "u",
-          "category": {
-            "id": 2,
-            "name": "industry"
-          },
-          "qty": 1
-        }
-      ]
+      "carts": []
     },
     {
       "id": 2,
@@ -107,6 +92,32 @@
       "keterangan": "Aestetic"
     }
   ],
-  "transactions": [],
-  "transactionDetails": []
+  "transactions": [
+    {
+      "status": "onWaiting",
+      "alamat": "jl kesejahteraan",
+      "userId": 1,
+      "pajak": 90000,
+      "ongkir": 200000,
+      "bank": "BCA",
+      "norek": "11000",
+      "id": 1
+    }
+  ],
+  "transactionDetails": [
+    {
+      "transactionId": 1,
+      "price": 500000,
+      "productId": 2,
+      "qty": 1,
+      "id": 1
+    },
+    {
+      "transactionId": 1,
+      "price": 200000,
+      "productId": 1,
+      "qty": 2,
+      "id": 2
+    }
+  ]
 }

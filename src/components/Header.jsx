@@ -8,7 +8,7 @@ import InputBase from "@material-ui/core/InputBase";
 import Badge from "@material-ui/core/Badge";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
-
+import AKEA1 from "./../assets/akea1.png";
 import SearchIcon from "@material-ui/icons/Search";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 
@@ -299,9 +299,12 @@ class Header extends Component {
                    <MenuIcon /> 
                 </IconButton> */}
               <Link className="txt-link" to="/">
-                <Typography className={classes.title} variant="h6" noWrap>
-                  AKEA
-                </Typography>
+                <div className="d-flex">
+                  <img src={AKEA1} alt="logo" height="30" />
+                  <Typography className={classes.title} variant="h6" noWrap>
+                    KEA
+                  </Typography>
+                </div>
               </Link>
               {/* <div className={classes.search}>
                 <div className={classes.searchIcon}>

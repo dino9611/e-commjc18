@@ -7,21 +7,71 @@ import { API_URL } from "../helpers/ApiUrl";
 import { converToRupiah } from "../helpers/converToRupiah";
 import Typography from "@material-ui/core/Typography";
 import Breadcrumbs from "@material-ui/core/Breadcrumbs";
+import { debounce } from "throttle-debounce";
 
 class Products extends Component {
   state = {
     products: [],
+    pass: "",
+    statusAlert: false,
+    nameFilter: "",
+    categoryId: 0,
+    priceMin: "",
+    priceMax: "",
+    categories: [],
   };
 
   componentDidMount() {
-    axios
-      .get(`${API_URL}/products?_expand=category`)
-      .then((res) => {
-        this.setState({ products: res.data });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    // axios
+    //   .get(`${API_URL}/products?_expand=category`)
+    //   .then((res) => {
+    //     this.setState({ products: res.data });
+
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
+    let categories = axios.get(`${API_URL}/categories`);
+    let products = axios.get(`${API_URL}/products?_expand=category`);
+
+    Promise.all([categories, products]).then((res) => {
+      console.log(res);
+      this.setState({ products: res[1].data, categories: res[0].data });
+    });
+  }
+
+  productFilterHandler = () => {
+    let { nameFilter, categoryId, priceMax, priceMin } = this.state;
+    let url = `${API_URL}/products?_expand=category`;
+    if (nameFilter) {
+      url += `&name_like=${nameFilter}`;
+    }
+    if (categoryId != "0") {
+      url += `&categoryId=${categoryId}`;
+    }
+    if (priceMax) {
+      url += `&price_lte=${priceMax}`;
+    }
+    if (priceMin) {
+      url += `&price_gte=${priceMin}`;
+    }
+
+    axios.get(url).then((res) => {
+      console.log(res);
+      this.setState({ products: res.data });
+    });
+  };
+
+  componentDidUpdate(prevprops, prevstate) {
+    if (
+      prevstate.categoryId !== this.state.categoryId ||
+      prevstate.priceMax !== this.state.priceMax ||
+      prevstate.priceMin !== this.state.priceMin
+    ) {
+      this.productFilterHandler();
+    } else if (prevstate.nameFilter !== this.state.nameFilter) {
+      this.productFilterHandler();
+    }
   }
 
   renderCard = () => {
@@ -74,6 +124,33 @@ class Products extends Component {
     );
   };
 
+  cek = () => {
+    const reg = new RegExp(
+      "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{6,})"
+    );
+    if (reg.test(this.state.pass)) {
+      // alert("berhasil");
+      this.setState({ statusAlert: false });
+    } else {
+      this.setState({ statusAlert: true });
+    }
+  };
+
+  inputChange = (e) => {
+    console.log(e.target.value);
+    this.setState({ [e.target.name]: e.target.value });
+    // this.productFilterHandler();
+  };
+
+  renderCategories = () => {
+    return this.state.categories.map((val, index) => {
+      return (
+        <option key={index} value={val.id}>
+          {val.name}
+        </option>
+      );
+    });
+  };
   render() {
     return (
       <div>
@@ -85,7 +162,24 @@ class Products extends Component {
                 className="bg-danger"
                 style={{ height: "80vh", position: "sticky" }}
               >
-                <h2>Filter </h2>
+                <div>
+                  <select
+                    onChange={this.inputChange}
+                    name="categoryId"
+                    value={this.state.categoryId}
+                  >
+                    <option value={0}>All</option>
+                    {this.renderCategories()}
+                  </select>
+                </div>
+                <div>
+                  <input
+                    type="text"
+                    name="nameFilter"
+                    // value={this.state.nameFilter}
+                    onChange={debounce(700, this.inputChange)}
+                  />
+                </div>
               </div>
             </div>
           </div>
