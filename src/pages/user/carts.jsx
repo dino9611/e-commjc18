@@ -193,7 +193,10 @@ class Carts extends Component {
       pajak: pajak,
       ongkir: ongkir,
       bank: bank,
+      bukti: "",
       norek: norek,
+      create_on: new Date(),
+      last_update: new Date(),
     };
     axios
       .post(`${API_URL}/transactions`, transactionPost)

@@ -24,7 +24,7 @@ export const AddToCartAction = (data, userId) => {
       let carts = res.data.carts; //array
       // add cart
       // cek ada atau tidak product didalam cart yang ada
-      let indexfind = carts.findIndex((val) => val.id == data.id);
+      let indexfind = carts.findIndex((val) => val.id === data.id);
       if (indexfind < 0) {
         carts.push(data);
       } else {

@@ -4,16 +4,17 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
-import InputBase from "@material-ui/core/InputBase";
+// import InputBase from "@material-ui/core/InputBase";
 import Badge from "@material-ui/core/Badge";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
 import AKEA1 from "./../assets/akea1.png";
-import SearchIcon from "@material-ui/icons/Search";
+// import SearchIcon from "@material-ui/icons/Search";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 
 import ShoppingCart from "@material-ui/icons/ShoppingCart";
-import NotificationsIcon from "@material-ui/icons/Notifications";
+// import NotificationsIcon from "@material-ui/icons/Notifications";
+import { FaHistory } from "react-icons/fa";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
@@ -122,7 +123,6 @@ class Header extends Component {
 
   handleMenuClose = () => {
     this.setState({ anchorEl: null, openMenu: false });
-
     this.handleMobileMenuClose();
   };
 
@@ -136,6 +136,7 @@ class Header extends Component {
 
   onLogout = () => {
     localStorage.removeItem("id");
+    this.handleMenuClose();
     this.props.LogoutAction();
   };
 
@@ -247,17 +248,19 @@ class Header extends Component {
                   </IconButton>
                   <p>Carts</p>
                 </MenuItem>,
-                <MenuItem>
-                  <IconButton
-                    aria-label="show 11 new notifications"
-                    color="inherit"
-                  >
-                    <Badge badgeContent={11} color="secondary">
-                      <NotificationsIcon />
-                    </Badge>
-                  </IconButton>
-                  <p>Notifications</p>
-                </MenuItem>,
+                <Link to="/history" className="txt-link">
+                  <MenuItem>
+                    <IconButton
+                      aria-label="show 11 new notifications"
+                      color="inherit"
+                    >
+                      <Badge color="secondary">
+                        <FaHistory />
+                      </Badge>
+                    </IconButton>
+                    <p>History</p>
+                  </MenuItem>
+                </Link>,
               ]}
 
           <MenuItem onClick={this.handleProfileMenuOpen}>
@@ -323,26 +326,29 @@ class Header extends Component {
               {auth.isLogin ? (
                 <>
                   <div className={classes.sectionDesktop}>
-                    <IconButton
-                      onClick={this.handleCartMenuOpen}
-                      aria-label="show 4 new mails"
-                      color="inherit"
-                    >
-                      <Badge
-                        badgeContent={this.props.auth.carts.length}
-                        color="secondary"
-                      >
-                        <ShoppingCart />
-                      </Badge>
-                    </IconButton>
-                    <IconButton
-                      aria-label="show 17 new notifications"
-                      color="inherit"
-                    >
-                      <Badge badgeContent={0} color="secondary">
-                        <NotificationsIcon />
-                      </Badge>
-                    </IconButton>
+                    {this.props.auth.role === "admin"
+                      ? null
+                      : [
+                          <IconButton
+                            onClick={this.handleCartMenuOpen}
+                            color="inherit"
+                          >
+                            <Badge
+                              badgeContent={this.props.auth.carts.length}
+                              color="secondary"
+                            >
+                              <ShoppingCart />
+                            </Badge>
+                          </IconButton>,
+                          <Link to="/history" className="txt-link text-white">
+                            <IconButton color="inherit">
+                              <Badge badgeContent={0} color="secondary">
+                                <FaHistory />
+                              </Badge>
+                            </IconButton>
+                          </Link>,
+                        ]}
+
                     <div>
                       <IconButton
                         edge="end"

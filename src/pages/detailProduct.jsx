@@ -83,8 +83,8 @@ class DetailProd extends Component {
     let QtyLast = this.state.qty;
     console.log(value);
     if (value) {
-      if (QtyLast == 1) {
-        if (value[0] == 1) {
+      if (QtyLast === "1") {
+        if (value[0] === "1") {
           this.setState({ qty: value });
         } else {
           this.setState({ qty: value[0] });

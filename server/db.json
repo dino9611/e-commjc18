@@ -94,14 +94,30 @@
   ],
   "transactions": [
     {
-      "status": "onWaiting",
+      "status": "onConfirmation",
       "alamat": "jl kesejahteraan",
       "userId": 1,
       "pajak": 90000,
       "ongkir": 200000,
+      "bukti": "dsadasdadasd",
       "bank": "BCA",
       "norek": "11000",
+      "create_on": "2021-09-08T03:14:11.931Z",
+      "last_update": "2021-09-08T03:14:11.931Z",
       "id": 1
+    },
+    {
+      "status": "onWaiting",
+      "alamat": "jl kemana aja",
+      "userId": 1,
+      "bukti": "",
+      "pajak": 70000,
+      "ongkir": 200000,
+      "bank": "mandiri",
+      "norek": "000111",
+      "create_on": "2021-09-09T03:14:11.931Z",
+      "last_update": "2021-09-09T03:14:11.931Z",
+      "id": 2
     }
   ],
   "transactionDetails": [
@@ -118,6 +134,13 @@
       "productId": 1,
       "qty": 2,
       "id": 2
+    },
+    {
+      "transactionId": 2,
+      "price": 700000,
+      "productId": 3,
+      "qty": 1,
+      "id": 3
     }
   ]
 }

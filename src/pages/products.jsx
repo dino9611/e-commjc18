@@ -55,7 +55,7 @@ class Products extends Component {
     if (nameFilter) {
       url += `&name_like=${nameFilter}`;
     }
-    if (categoryId != "0") {
+    if (categoryId !== "0") {
       url += `&categoryId=${categoryId}`;
     }
     if (priceMax) {
@@ -184,7 +184,7 @@ class Products extends Component {
                   <select
                     onChange={this.inputChange}
                     name="categoryId"
-                    className="form-control decorated"
+                    className="form-control"
                     value={this.state.categoryId}
                   >
                     <option value={0}>All</option>

@@ -16,6 +16,7 @@ import { API_URL } from "./helpers/ApiUrl";
 // import Header from "./components/Header";
 import Loading from "./components/loading";
 import Carts from "./pages/user/carts";
+import History from "./pages/user/history";
 class App extends Component {
   state = {
     loading: true,
@@ -59,6 +60,7 @@ class App extends Component {
       <Route path="/products" exact component={Products} />
       <Route path="/login" exact component={Login} />
       <Route path="/products/:idProd" component={DetailProd} />
+      <Route path="/history" exact component={History} />
       <Route path="/cart" exact component={Carts} />
       <Route path="*" component={PageNotFound} />
     </Switch>
