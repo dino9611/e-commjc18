@@ -23,6 +23,7 @@ class Products extends Component {
     page: 1,
     totalProduct: 0,
     limit: 8,
+    loading: true,
   };
 
   componentDidMount() {
@@ -37,13 +38,16 @@ class Products extends Component {
     //   });
     let categories = axios.get(`${API_URL}/categories`);
     let products = axios.get(
-      `${API_URL}/products?_expand=category&_page=${this.state.page}&_limit=${this.state.limit}`
+      `${API_URL}/products?pages=${this.state.page - 1}&limit=${
+        this.state.limit
+      }`
     );
 
     Promise.all([categories, products]).then((res) => {
       this.setState({
         products: res[1].data,
         categories: res[0].data,
+        loading: false,
         totalProduct: res[1].headers["x-total-count"],
       });
     });
@@ -51,18 +55,20 @@ class Products extends Component {
 
   productFilterHandler = () => {
     let { nameFilter, categoryId, priceMax, priceMin } = this.state;
-    let url = `${API_URL}/products?_expand=category&_page=${this.state.page}&_limit=${this.state.limit}`;
+    let url = `${API_URL}/products?pages=${this.state.page - 1}&limit=${
+      this.state.limit
+    }`;
     if (nameFilter) {
-      url += `&name_like=${nameFilter}`;
+      url += `&name=${nameFilter}`;
     }
     if (categoryId !== "0") {
-      url += `&categoryId=${categoryId}`;
+      url += `&categories_id=${categoryId}`;
     }
     if (priceMax) {
-      url += `&price_lte=${priceMax}`;
+      url += `&priceMax=${priceMax}`;
     }
     if (priceMin) {
-      url += `&price_gte=${priceMin}`;
+      url += `&priceMin=${priceMin}`;
     }
 
     axios.get(url).then((res) => {
@@ -89,6 +95,32 @@ class Products extends Component {
   }
 
   renderCard = () => {
+    if (this.state.loading) {
+      return [1, 2, 3, 4, 5, 6, 7, 8].map((val, index) => {
+        return (
+          <div key={index} className="col-md-3 my-3">
+            <Card className="shadow">
+              <div
+                className="card-prod-img skeleton w-100 "
+                // src={API_URL + val.image}
+                // alt="Card image cap"
+              ></div>
+              <CardBody>
+                <CardTitle tag="h5" className="text-capitalize skeleton w-100">
+                  {/* {val.name} */}
+                </CardTitle>
+                <CardSubtitle tag="h5" className="mb-2 text-muted">
+                  {/* {converToRupiah(val.price)} */}
+                </CardSubtitle>
+                <CardSubtitle tag="h6" className="mb-2 text-muted">
+                  {/* {val.category} */}
+                </CardSubtitle>
+              </CardBody>
+            </Card>
+          </div>
+        );
+      });
+    }
     return this.state.products.map((val, index) => {
       return (
         <div key={index} className="col-md-3 my-3">
@@ -104,7 +136,7 @@ class Products extends Component {
                 top
                 width="100%"
                 className="card-prod-img skeleton "
-                src={val.image}
+                src={API_URL + val.image}
                 alt="Card image cap"
               />
               <CardBody>
@@ -115,7 +147,7 @@ class Products extends Component {
                   {converToRupiah(val.price)}
                 </CardSubtitle>
                 <CardSubtitle tag="h6" className="mb-2 text-muted">
-                  {val.category.name}
+                  {val.category}
                 </CardSubtitle>
               </CardBody>
             </Card>
@@ -163,7 +195,7 @@ class Products extends Component {
     return this.state.categories.map((val, index) => {
       return (
         <option key={index} value={val.id}>
-          {val.name}
+          {val.category}
         </option>
       );
     });

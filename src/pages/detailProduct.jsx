@@ -120,7 +120,7 @@ class DetailProd extends Component {
             <div className="detail-image rounded shadow p-1  card">
               <img
                 style={{ objectFit: "cover" }}
-                src={image}
+                src={API_URL + image}
                 alt={name}
                 width={"100%"}
                 height={"100%"}
@@ -129,7 +129,7 @@ class DetailProd extends Component {
             <div className="detail-prod px-5 py-1 d-flex justify-content-center">
               <div className="bg-white px-5 py-2 shadow w-100">
                 <h2 className="text-capitalize my-4">{name}</h2>
-                <h4 className="text-capitalize my-4"> {category.name}</h4>
+                <h4 className="text-capitalize my-4"> {category}</h4>
                 <div>Stock {stock} pcs</div>
                 <h3 className="text-capitalize my-4">
                   {converToRupiah(price * qty)}

@@ -41,11 +41,9 @@ class Home extends Component {
   };
 
   componentDidMount() {
-    axios
-      .get(`${API_URL}/products?_page=1&_limit=7&_expand=category`)
-      .then((res) => {
-        this.setState({ products: res.data });
-      });
+    axios.get(`${API_URL}/products?limit=7`).then((res) => {
+      this.setState({ products: res.data });
+    });
   }
 
   renderCard = () => {
@@ -64,7 +62,7 @@ class Home extends Component {
               top
               width="100%"
               className="card-prod-img skeleton "
-              src={val.image}
+              src={API_URL + val.image}
               alt="Card image cap"
             />
             <CardBody>
@@ -75,7 +73,7 @@ class Home extends Component {
                 {converToRupiah(val.price)}
               </CardSubtitle>
               <CardSubtitle tag="h6" className="mb-2 text-muted">
-                {val.category.name}
+                {val.category}
               </CardSubtitle>
             </CardBody>
           </Card>
