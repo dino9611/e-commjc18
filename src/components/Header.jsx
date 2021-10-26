@@ -135,7 +135,7 @@ class Header extends Component {
   };
 
   onLogout = () => {
-    localStorage.removeItem("id");
+    localStorage.removeItem("token");
     this.handleMenuClose();
     this.props.LogoutAction();
   };
@@ -201,7 +201,7 @@ class Header extends Component {
       open={this.state.openMenu}
       onClose={this.handleMenuClose}
     >
-      {this.props.auth.role === "admin" ? (
+      {this.props.auth.role_id === 2 || this.props.auth.role_id === 3 ? (
         <Link to="/admin">
           <MenuItem>admin Menu</MenuItem>
         </Link>
@@ -234,7 +234,7 @@ class Header extends Component {
     >
       {this.props.auth.isLogin ? (
         <>
-          {this.props.auth.role === "admin"
+          {this.props.auth.role_id === 2 || this.props.auth.role_id === 3
             ? null
             : [
                 <MenuItem onClick={this.handleCartMenuOpen}>
@@ -326,7 +326,8 @@ class Header extends Component {
               {auth.isLogin ? (
                 <>
                   <div className={classes.sectionDesktop}>
-                    {this.props.auth.role === "admin"
+                    {this.props.auth.role_id === 2 ||
+                    this.props.auth.role_id === 3
                       ? null
                       : [
                           <IconButton

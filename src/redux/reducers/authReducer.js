@@ -4,6 +4,7 @@ const INITIAL_STATE = {
   password: "",
   email: "",
   role: "",
+  role_id: 0,
   isLogin: false,
   carts: [],
   loadingCarts: false,

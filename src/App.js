@@ -17,25 +17,31 @@ import { API_URL } from "./helpers/ApiUrl";
 import Loading from "./components/loading";
 import Carts from "./pages/user/carts";
 import History from "./pages/user/history";
+
+// function a dalam onchange ngetrigger pemanggilan data ke server
+// sepeda
+
 class App extends Component {
   state = {
     loading: true,
   };
 
-  componentDidMount() {
-    let id = localStorage.getItem("id");
-    if (id) {
-      axios
-        .get(`${API_URL}/users/${id}`)
-        .then((res) => {
-          this.props.LoginAction(res.data);
-        })
-        .catch((err) => {
-          alert("server error");
-        })
-        .finally(() => {
-          this.setState({ loading: false });
+  async componentDidMount() {
+    let token = localStorage.getItem("token");
+
+    if (token) {
+      try {
+        let res = await axios.get(`${API_URL}/auth/keeplogin`, {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
         });
+        this.props.LoginAction(res.data);
+      } catch (error) {
+        alert("server error");
+      } finally {
+        this.setState({ loading: false });
+      }
     } else {
       this.setState({ loading: false });
     }
@@ -53,7 +59,7 @@ class App extends Component {
       </Switch>
     );
   };
-
+  // products
   renderUserRoute = () => (
     <Switch>
       <Route path="/" exact component={Home} />
@@ -77,11 +83,13 @@ class App extends Component {
   );
 
   renderFinal = () => {
-    let { role } = this.props.auth;
+    let { role_id } = this.props.auth;
 
-    if (role === "admin") {
+    if (role_id === 2 || role_id === 3) {
+      //admi  or super admin
       return this.renderAdminRoute();
-    } else if (role === "user") {
+    } else if (role_id === 1) {
+      // user
       return this.renderUserRoute();
     } else {
       return this.renderUmum();

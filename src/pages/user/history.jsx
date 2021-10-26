@@ -18,11 +18,6 @@ const History = (props) => {
   const [indexbayar, setindexbayar] = useState(-1);
   const [detailTrans, setdetailtrans] = useState([]);
   const [modalDetailtrans, setmodalDetailtrans] = useState(false);
-
-  useEffect(() => {
-    fetchData();
-  }, []);
-
   const fetchData = () => {
     let id = props.userId;
     axios
@@ -34,6 +29,9 @@ const History = (props) => {
         alert(err);
       });
   };
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   const renderTRX = (date, id) => {
     let random = new Date(date).getTime();

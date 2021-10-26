@@ -32,37 +32,26 @@ class Login extends Component {
     this.setState({ [e.target.name]: e.target.value });
   };
 
-  LoginHandler = () => {
+  LoginHandler = async () => {
     const { username, password } = this.state;
-    axios
-      .get(`${API_URL}/users?username=${username}&password=${password}`)
-      .then((res) => {
-        if (res.data.length) {
-          // alert('user ada')
-
-          toast.success("Berhasil login", {
-            position: "top-right",
-            autoClose: 5000,
-            icon: () => <AiFillCheckCircle />,
-          });
-
-          localStorage.setItem("id", res.data[0].id);
-          // // dalam kasus real id nggak boleh disimpan
-          // // dalam localstorage , better token yang disimpan
-          this.props.LoginAction(res.data[0]);
-        } else {
-          toast.error("user tidak ada", {
-            position: "top-right",
-            autoClose: 5000,
-          });
-        }
-      })
-      .catch((err) => {
-        toast.error("server error", {
-          position: "top-right",
-          autoClose: 5000,
-        });
+    try {
+      const res = await axios.post(`${API_URL}/auth/login`, {
+        username,
+        password,
       });
+      toast.success("Berhasil login", {
+        position: "top-right",
+        autoClose: 5000,
+        icon: () => <AiFillCheckCircle />,
+      });
+      localStorage.setItem("token", res.headers["x-token-access"]);
+      this.props.LoginAction(res.data);
+    } catch (error) {
+      toast.error(error.response.data.message || "server error", {
+        position: "top-right",
+        autoClose: 5000,
+      });
+    }
   };
 
   onLoginClick = (e) => {

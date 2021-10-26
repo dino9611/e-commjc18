@@ -6,7 +6,18 @@
       "password": "abcde",
       "email": "dinopwdk@gmail.com",
       "role": "user",
-      "carts": []
+      "carts": [
+        {
+          "name": "kursi kerja",
+          "image": "https://images.unsplash.com/photo-1492138786289-d35ea832da43?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80",
+          "price": 200000,
+          "stock": 10,
+          "keterangan": "kursi kece cuy",
+          "categoryId": 1,
+          "id": 4,
+          "qty": 1
+        }
+      ]
     },
     {
       "id": 2,
@@ -15,6 +26,22 @@
       "email": "admin@gmail.com",
       "role": "admin",
       "carts": []
+    },
+    {
+      "username": "dinos",
+      "password": "abcd",
+      "email": "dinopwdk@gmail.com",
+      "role": "user",
+      "carts": [],
+      "id": 3
+    },
+    {
+      "username": "gangsar",
+      "password": "abcd",
+      "email": "dinopwdk@gmail.com",
+      "role": "user",
+      "carts": [],
+      "id": 4
     }
   ],
   "categories": [
@@ -30,7 +57,7 @@
   "products": [
     {
       "id": 1,
-      "name": "kursi",
+      "name": "chair",
       "price": 200000,
       "image": "https://images.unsplash.com/photo-1592078615290-033ee584e267",
       "stock": 5,
@@ -90,6 +117,51 @@
       "image": "https://images.unsplash.com/photo-1499933374294-4584851497cc",
       "categoryId": 2,
       "keterangan": "Aestetic"
+    },
+    {
+      "id": 8,
+      "name": "meja kayu",
+      "price": 700000,
+      "categoryId": 1,
+      "image": "https://images.unsplash.com/photo-1486946255434-2466348c2166?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=334&q=80",
+      "stock": 5,
+      "keterangan": "u"
+    },
+    {
+      "name": "kursi kerja",
+      "image": "https://images.unsplash.com/photo-1492138786289-d35ea832da43?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80",
+      "price": 200000,
+      "stock": 10,
+      "keterangan": "kursi kece cuy",
+      "categoryId": 1,
+      "id": 9
+    },
+    {
+      "id": 10,
+      "name": "kursi",
+      "price": 20000,
+      "stock": 5,
+      "image": "https://images.unsplash.com/photo-1592078615290-033ee584e267",
+      "categoryId": 1,
+      "keterangan": "Aesthetic"
+    },
+    {
+      "id": 11,
+      "name": "sofa",
+      "price": 30000,
+      "stock": 7,
+      "image": "https://images.unsplash.com/photo-1565374395542-0ce18882c857",
+      "categoryId": 2,
+      "keterangan": "Empuk"
+    },
+    {
+      "id": 12,
+      "name": "Meja",
+      "price": 10000,
+      "stock": 6,
+      "image": "https://images.unsplash.com/photo-1499933374294-4584851497cc",
+      "categoryId": 2,
+      "keterangan": "Aestetic"
     }
   ],
   "transactions": [
@@ -118,6 +190,58 @@
       "create_on": "2021-09-09T03:14:11.931Z",
       "last_update": "2021-09-09T03:14:11.931Z",
       "id": 2
+    },
+    {
+      "status": "onWaiting",
+      "alamat": "jl. kesejahteraan",
+      "userId": 1,
+      "pajak": 70000,
+      "ongkir": 200000,
+      "bank": "BCA",
+      "bukti": "",
+      "norek": "11000",
+      "create_on": "2021-09-28T05:14:38.418Z",
+      "last_update": "2021-09-28T05:14:38.418Z",
+      "id": 3
+    },
+    {
+      "status": "onWaiting",
+      "alamat": "jl. sisawa",
+      "userId": 1,
+      "pajak": 20000,
+      "ongkir": 200000,
+      "bank": "mandiri",
+      "bukti": "",
+      "norek": "000111",
+      "create_on": "2021-09-28T05:16:52.180Z",
+      "last_update": "2021-09-28T05:16:52.180Z",
+      "id": 4
+    },
+    {
+      "status": "onWaiting",
+      "alamat": "dasdasdasd",
+      "userId": 1,
+      "pajak": 50000,
+      "ongkir": 200000,
+      "bank": "BCA",
+      "bukti": "",
+      "norek": "11000",
+      "create_on": "2021-09-28T05:19:53.134Z",
+      "last_update": "2021-09-28T05:19:53.143Z",
+      "id": 5
+    },
+    {
+      "status": "onWaiting",
+      "alamat": "jl. bdaskdaskd",
+      "userId": 1,
+      "pajak": 20000,
+      "ongkir": 200000,
+      "bank": "mandiri",
+      "bukti": "",
+      "norek": "000111",
+      "create_on": "2021-09-28T05:20:45.507Z",
+      "last_update": "2021-09-28T05:20:45.507Z",
+      "id": 6
     }
   ],
   "transactionDetails": [
@@ -141,6 +265,41 @@
       "productId": 3,
       "qty": 1,
       "id": 3
+    },
+    {
+      "transactionId": 3,
+      "price": 200000,
+      "productId": 1,
+      "qty": 1,
+      "id": 4
+    },
+    {
+      "transactionId": 3,
+      "price": 500000,
+      "productId": 2,
+      "qty": 1,
+      "id": 5
+    },
+    {
+      "transactionId": 4,
+      "price": 200000,
+      "productId": 1,
+      "qty": 1,
+      "id": 6
+    },
+    {
+      "transactionId": 5,
+      "price": 500000,
+      "productId": 2,
+      "qty": 1,
+      "id": 7
+    },
+    {
+      "transactionId": 6,
+      "price": 200000,
+      "productId": 4,
+      "qty": 1,
+      "id": 8
     }
   ]
 }

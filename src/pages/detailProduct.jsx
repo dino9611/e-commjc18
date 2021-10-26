@@ -23,6 +23,7 @@ class DetailProd extends Component {
   componentDidMount() {
     console.log(this.props.location.state);
     let idProd = this.props.match.params.idProd;
+    // kalo statenya false /kosong maka get data lagi dengan idprod
     if (!this.props.location.state) {
       axios
         .get(`${API_URL}/products/${idProd}`, {
