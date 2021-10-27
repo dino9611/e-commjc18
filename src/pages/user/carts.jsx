@@ -2,7 +2,7 @@ import React, { Component, createRef } from "react";
 import { connect } from "react-redux";
 import Header from "../../components/Header";
 import { converToRupiah } from "../../helpers/converToRupiah";
-import { UpdateCartAction } from "../../redux/actions";
+import { UpdateCartAction, deleteCartAction } from "../../redux/actions";
 import { Modal, ModalBody, ModalHeader, ModalFooter } from "reactstrap";
 import "./styles/cart.css";
 import Swal from "sweetalert2";
@@ -41,9 +41,7 @@ class Carts extends Component {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        newCart.splice(index, 1);
-        this.props.UpdateCartAction(newCart, userId);
-        MySwal.fire("Deleted!", "Your file has been deleted.", "success");
+        this.props.deleteCartAction(newCart[index].id, userId, MySwal);
       }
     });
   };
@@ -69,13 +67,13 @@ class Carts extends Component {
               height="100%"
               className="rounded cart-img "
               width="100%"
-              src={data.image}
+              src={API_URL + data.image}
               alt={data.name}
             />
           </div>
           <div>
             <h3 className="text-capitalize mt-2">{data.name}</h3>
-            <h6>{data.category.name}</h6>
+            <h6>{data.category}</h6>
             <div>Qty {data.qty} pcs</div>
             <div>
               {data.qty} X {converToRupiah(data.price)}
@@ -117,8 +115,14 @@ class Carts extends Component {
     let newCart = this.props.carts;
     let userId = this.props.userId;
     newCart[index].qty = parseInt(this.state.qtyInput);
-    this.props.UpdateCartAction(newCart, userId);
-    this.toggle();
+    this.props.UpdateCartAction(
+      newCart[index].id,
+      newCart[index].products_id,
+      parseInt(this.state.qtyInput),
+      userId,
+      this.toggle
+    );
+    // this.toggle();
   };
 
   renderModal = () => {
@@ -305,4 +309,6 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, { UpdateCartAction })(Carts);
+export default connect(mapStateToProps, { UpdateCartAction, deleteCartAction })(
+  Carts
+);

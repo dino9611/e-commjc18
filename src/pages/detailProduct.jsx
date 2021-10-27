@@ -47,7 +47,7 @@ class DetailProd extends Component {
 
   onAddTocartClick = () => {
     let userId = this.props.userData.id;
-    if (this.props.userData.role !== "user") {
+    if (this.props.userData.role_id !== 1) {
       if (this.props.userData.isLogin) {
         toast.error("tidak bisa belanja karena admin");
       } else {

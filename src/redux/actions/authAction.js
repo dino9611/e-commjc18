@@ -24,43 +24,24 @@ export const LogoutActionthunk = () => {
 export const AddToCartAction = (data, userId) => {
   // data object
 
-  return (dispatch) => {
+  return async (dispatch) => {
     //get data user cart
     dispatch({ type: "LoadingCarts" });
-
-    axios.get(`${API_URL}/users/${userId}`).then((res) => {
-      let carts = res.data.carts; //array
-      // add cart
-      // cek ada atau tidak product didalam cart yang ada
-      let indexfind = carts.findIndex((val) => val.id === data.id);
-      if (indexfind < 0) {
-        carts.push(data);
-      } else {
-        carts[indexfind].qty += data.qty;
-      }
-      axios
-        .patch(`${API_URL}/users/${userId}`, { carts: carts })
-        .then(() => {
-          // refresh userdata
-          axios
-            .get(`${API_URL}/users/${userId}`)
-            .then((res1) => {
-              dispatch({ type: "CART", carts: res1.data.carts });
-              toast.success("berhasil add to cart");
-              dispatch({ type: "AFTERPROCESS" });
-            })
-            .catch((err) => {
-              console.log(err);
-              dispatch({ type: "AFTERPROCESS" });
-            });
-        })
-        .catch((err) => {
-          console.log(err);
-          dispatch({ type: "AFTERPROCESS" });
-        });
-    });
-
-    // add cart
+    let dataToAxios = {
+      users_id: userId,
+      products_id: data.id,
+      qty: data.qty,
+    };
+    try {
+      let res = await axios.post(`${API_URL}/cart`, dataToAxios);
+      dispatch({ type: "CART", carts: res.data.carts });
+      toast.success("berhasil add to cart");
+      dispatch({ type: "AFTERPROCESS" });
+    } catch (err) {
+      console.log(err);
+      toast.error(err.response.data.message || "server error");
+      dispatch({ type: "AFTERPROCESS" });
+    }
   };
 };
 
@@ -97,26 +78,64 @@ export const AddToCartAction = (data, userId) => {
 //   };
 // };
 
-export const UpdateCartAction = (newCart, userId) => {
+export const UpdateCartAction = (
+  cart_detail_id,
+  products_id,
+  newqty,
+  userId,
+  toggle
+) => {
   // datacart = array
   // index = number
 
   return (dispatch) => {
     axios
-      .patch(`${API_URL}/users/${userId}`, { carts: newCart })
-      .then(() => {
+      .patch(`${API_URL}/cart/qty/${cart_detail_id}`, {
+        qty: newqty,
+        users_id: userId,
+        products_id,
+      })
+      .then((res) => {
         // refresh userdata
-        axios
-          .get(`${API_URL}/users/${userId}`)
-          .then((res1) => {
-            dispatch({ type: "CART", carts: res1.data.carts });
-          })
-          .catch((err) => {
-            console.log(err);
-          });
+        dispatch({ type: "CART", carts: res.data.carts });
+        toggle();
       })
       .catch((err) => {
-        alert(err);
+        alert(err.response.data.message || err);
+      });
+    // axios
+    //   .patch(`${API_URL}/users/${userId}`, { carts: newCart })
+    //   .then(() => {
+    //     // refresh userdata
+    //     axios
+    //       .get(`${API_URL}/users/${userId}`)
+    //       .then((res1) => {
+    //         dispatch({ type: "CART", carts: res1.data.carts });
+    //       })
+    //       .catch((err) => {
+    //         console.log(err);
+    //       });
+    //   })
+    //   .catch((err) => {
+    //     alert(err);
+    //   });
+  };
+};
+
+export const deleteCartAction = (cartdetailId, userId, MySwal) => {
+  // datacart = array
+  // index = number
+  return (dispatch) => {
+    axios
+      .delete(`${API_URL}/cart/${cartdetailId}/${userId}`)
+      .then((res) => {
+        // refresh userdata
+        dispatch({ type: "CART", carts: res.data.carts });
+        MySwal.fire("Deleted!", "Your file has been deleted.", "success");
+      })
+      .catch((err) => {
+        // alert(err);
+        MySwal.fire("Deleted!", "gagal delete ", "error");
       });
   };
 };

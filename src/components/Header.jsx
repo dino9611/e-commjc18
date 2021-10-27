@@ -21,6 +21,7 @@ import { connect } from "react-redux";
 import { Button } from "@material-ui/core";
 import { LogoutAction } from "./../redux/actions";
 import { converToRupiah } from "../helpers/converToRupiah";
+import { API_URL } from "../helpers/ApiUrl";
 
 const styles = (theme) => ({
   grow: {
@@ -147,7 +148,7 @@ class Header extends Component {
           <MenuItem key={index} className="d-flex" style={{ width: 400 }}>
             <div className="mr-2 card p-1 shadow">
               <img
-                src={val.image}
+                src={API_URL + val.image}
                 height={100}
                 width={100}
                 style={{ objectFit: "cover" }}
