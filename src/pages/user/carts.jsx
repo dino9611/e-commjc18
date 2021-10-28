@@ -2,7 +2,11 @@ import React, { Component, createRef } from "react";
 import { connect } from "react-redux";
 import Header from "../../components/Header";
 import { converToRupiah } from "../../helpers/converToRupiah";
-import { UpdateCartAction, deleteCartAction } from "../../redux/actions";
+import {
+  UpdateCartAction,
+  UpdateCartQtyAction,
+  deleteCartAction,
+} from "../../redux/actions";
 import { Modal, ModalBody, ModalHeader, ModalFooter } from "reactstrap";
 import "./styles/cart.css";
 import Swal from "sweetalert2";
@@ -27,6 +31,11 @@ class Carts extends Component {
     pilihanbank: {},
     alamat: createRef(),
   };
+
+  async componentDidMount() {
+    let res = await axios.get(`${API_URL}/bank`);
+    this.setState({ banks: res.data });
+  }
 
   deleteCart = (index) => {
     let newCart = this.props.carts;
@@ -61,7 +70,10 @@ class Carts extends Component {
     }
     return this.props.carts.map((data, index) => {
       return (
-        <div className="rounded my-2 shadow w-100 d-flex p-3 cart-container ">
+        <div
+          className="rounded my-2 shadow w-100 d-flex p-3 cart-container "
+          // style={{ backgroundColor:  ? "red" : "white" }}
+        >
           <div className="cart-img-wrapper mr-3 skeleton">
             <img
               height="100%"
@@ -74,7 +86,9 @@ class Carts extends Component {
           <div>
             <h3 className="text-capitalize mt-2">{data.name}</h3>
             <h6>{data.category}</h6>
-            <div>Qty {data.qty} pcs</div>
+            <div>
+              Qty {data.qty} pcs {data.stock < data.qty ? "out of stock" : null}
+            </div>
             <div>
               {data.qty} X {converToRupiah(data.price)}
             </div>
@@ -115,7 +129,7 @@ class Carts extends Component {
     let newCart = this.props.carts;
     let userId = this.props.userId;
     newCart[index].qty = parseInt(this.state.qtyInput);
-    this.props.UpdateCartAction(
+    this.props.UpdateCartQtyAction(
       newCart[index].id,
       newCart[index].products_id,
       parseInt(this.state.qtyInput),
@@ -187,48 +201,29 @@ class Carts extends Component {
     let carts = this.props.carts;
     let pajak = this.hargaTotal() * (10 / 100);
     let ongkir = 200000;
-    let bank = this.state.pilihanbank.name;
-    let norek = this.state.pilihanbank.norek;
+    let bank = this.state.pilihanbank.id;
     let userId = this.props.userId;
-    let transactionPost = {
-      status: "onWaiting",
+    let orderPost = {
+      carts_id: carts[0].carts_id,
       alamat: this.state.alamat.current.value,
       userId: userId,
       pajak: pajak,
       ongkir: ongkir,
-      bank: bank,
-      bukti: "",
-      norek: norek,
-      create_on: new Date(),
-      last_update: new Date(),
+      banks_id: bank,
     };
     axios
-      .post(`${API_URL}/transactions`, transactionPost)
+      .post(`${API_URL}/order/checkout`, orderPost)
       .then((res) => {
-        console.log(res.data);
-        let transactionId = res.data.id;
-        // create array of promise (coding below)
-        let transactionDetails = carts.map((val) => {
-          let obj = {
-            transactionId: transactionId,
-            price: val.price,
-            productId: val.id,
-            qty: val.qty,
-          };
-          return axios.post(`${API_URL}/transactionDetails`, obj);
-        });
-
-        Promise.all(transactionDetails) // promise.all untuk ngelooping promise
-          .then(() => {
-            this.props.UpdateCartAction([], userId); //kosongkan array
-            toast.success("berhasil checkout");
-          })
-          .catch((err) => {
-            console.log(err);
-          });
+        toast.success(res.data.message);
+        this.props.UpdateCartAction([]);
       })
       .catch((err) => {
         console.log(err);
+        let data = err.response.data.data.map(
+          (val) => `nama products: ${val.name}, hanya ${val.stock} stocknya `
+        );
+        data.join(";");
+        toast.error(err.response.data.message + " " + data);
       });
   };
 
@@ -309,6 +304,8 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, { UpdateCartAction, deleteCartAction })(
-  Carts
-);
+export default connect(mapStateToProps, {
+  UpdateCartAction,
+  UpdateCartQtyAction,
+  deleteCartAction,
+})(Carts);

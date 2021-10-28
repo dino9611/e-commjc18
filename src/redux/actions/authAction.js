@@ -78,7 +78,13 @@ export const AddToCartAction = (data, userId) => {
 //   };
 // };
 
-export const UpdateCartAction = (
+export const UpdateCartAction = (carts) => {
+  return (dispatch) => {
+    dispatch({ type: "CART", carts: carts });
+  };
+};
+
+export const UpdateCartQtyAction = (
   cart_detail_id,
   products_id,
   newqty,
